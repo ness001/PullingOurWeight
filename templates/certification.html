@@ -1,0 +1,60 @@
+{% from '_render_errors.html' import render_errors %}
+
+<!DOCTYPE html>
+
+<html lang="=en">
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name='viewport' content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        Certification
+    </title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+
+<body>
+
+
+<div class="container">
+    <div class="pl-3 pr-3 pt-4">
+        <div class="alert alert-primary" role="alert">
+            Thanks for your coordination!
+            <br>
+            Please type in your <strong>name</strong> and upload your <strong>identification photo</strong> to get your
+            Digital Certificate!
+        </div>
+
+
+        <form method="post" action="{{url_for('cert')}}" enctype="multipart/form-data">
+
+            {{form.csrf_token}}
+
+            {{form.yourname(class='form-control',placeholder='Name')}}
+            {{render_errors(form.yourname)}}
+
+            <div class="custom-file">
+                {{form.yourphoto( class="custom-file-input")}}
+                <label class="custom-file-label" for="yourphoto">Choose photo</label>
+            </div>
+
+            {{render_errors(form.yourphoto)}}
+
+            {{form.submit(class="btn btn-primary")}}
+
+
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

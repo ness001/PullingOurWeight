@@ -1,0 +1,152 @@
+{% from '_render_errors.html' import render_errors %}
+<!DOCTYPE html>
+<html lang="=en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        2019 #PullingOurWeight Campaign Survey
+    </title>
+    <style>
+        .table {
+            font-size: 12px;
+            width: 10px
+        }
+
+
+
+
+
+    </style>
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class='pl-3 pr-3'>
+    <div class="container">
+        <br>
+        <h3 style='color: #415364'>2019 #PullingOurWeight Campaign Survey</h3>
+        <div class="row">
+            <div class="container">
+                <div class="col" style="background: #e80033;height: 10px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <form method="post" action="{{url_for('survey')}}" enctype="multipart/form-data">
+                    {{form.csrf_token}}
+
+        <div class="container">
+
+
+            <strong> 1. Cleanup date:</strong>
+            {{form.date(class='form-control',placeholder='yyyy-mm-dd',type='date')}}
+            {{render_errors(form.date)}}
+
+
+            <strong>2. I am a</strong>
+
+            {% for subfield in form.identity %}
+            <div>
+
+                {{subfield}}
+                {{subfield.label}}
+
+            </div>
+            {% endfor %}
+            {{render_errors(form.identity)}}
+
+
+
+            <strong>3. How satisfied were you with this event?</strong>
+            
+            {% for subfield in form.satisfactory %}
+            <div>
+
+                {{subfield}}
+                {{subfield.label}}
+
+            </div>
+            {% endfor %}
+            {{render_errors(form.satisfactory)}}
+
+                    <strong>4. How well-organized was this event?</strong>
+           
+            {% for subfield in form.organization %}
+            <div>
+
+                {{subfield}}
+                {{subfield.label}}
+
+            </div>
+            {% endfor %}
+                        {{render_errors(form.organization)}}
+
+
+
+            <strong>5. How well-prepared were you for this event?</strong>
+            
+             {% for subfield in form.preparation %}
+            <div class="radio">
+
+                {{subfield}}
+                {{subfield.label}}
+
+            </div>
+            {% endfor %}
+
+            {{render_errors(form.preparation)}}
+
+
+            <strong>6. Stakeholder Engagement.</strong>
+    
+            <div>
+                Rate the relationships developed with:
+                <li><label>Dow colleagues</label></li>
+                {{form.colleague(class="browser-default custom-select")}}
+            {{render_errors(form.colleague)}}
+
+
+            </div>
+
+             <div>
+                <li><label>Community members</label></li>
+                {{form.community(class="browser-default custom-select")}}
+                            {{render_errors(form.community)}}
+
+            </div>
+
+
+             <div>
+                <li><label>Family members</label></li>
+                {{form.family(class="browser-default custom-select")}}
+            {{render_errors(form.family)}}
+
+            </div>
+
+
+<br>
+            <strong>7. Additional comments</strong>
+            {{form.text(class='form-control',rows=3)}}
+            <br>
+
+
+            {{form.submit(class="btn btn-primary")}}
+        </div>
+    </form>
+</div>
+
+<footer class='text-center  py-4' style="color:#415364">
+    @<u>Dow 2019</u>
+</footer>
+</body>
+
+
+</html>
