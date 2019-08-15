@@ -17,7 +17,7 @@ import os, random, string
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ness001'
 app.config['TESTING'] = True  # in order to bypass recaptcha when in developer mode
-app.config['UPLOADED_PHOTOS_DEST'] = '/Users/ness001/angular-flask/photos'
+app.config['UPLOADED_PHOTOS_DEST'] = '/photos'
 
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
@@ -34,10 +34,10 @@ class certform(FlaskForm):
 
 def generate_cert(name, photo_path):
     background = Image.open(
-        r"/Users/ness001/Library/Mobile Documents/com~apple~CloudDocs/intern/PullingOurWeight /reference/image001.png")  # need to be edited on server
+        r"/static/image001.png")  # need to be edited on server
     portrait = Image.open(photo_path)
     draw = ImageDraw.Draw(background)
-    myfont = ImageFont.truetype(u"/System/Library/Fonts/STHeiti Medium.ttc",
+    myfont = ImageFont.truetype(u"/static/STHeiti Medium.ttc",
                                 size=20)  # font type need to be double-checked
     fillcolor = 'black'
     text = name  # name length should take into consideration
@@ -76,7 +76,7 @@ def cert():
         yourname = yourinfo.yourname.data  # get inputted name
         ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 16)) + '.'
         filename = photos.save(yourinfo.yourphoto.data, name=ran_str)
-        pic = generate_cert(yourname, '/Users/ness001/angular-flask/photos' + '/' + filename)
+        pic = generate_cert(yourname, '/photos' + '/' + filename)
         # save certification in var pic
         return show_img(pic)
     return render_template('certification.html', form=yourinfo)
