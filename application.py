@@ -123,6 +123,8 @@ import json
 @app.route('/', methods=['get', 'post'])
 def survey():
     sform = surveyform()
+    if sform.is_submitted():
+        print("Your answer is successfully submitted")
     if sform.validate_on_submit():
         data = sform.data
         with open(basedir + '/static/survey_data.json', 'w') as data_file:
