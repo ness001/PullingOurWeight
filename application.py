@@ -2,7 +2,7 @@
 # Developing Duration: 2019/8/10 - 8/16
 
 
-from flask import Flask, render_template, request, redirect, url_for, send_file, request
+from flask import Flask, render_template, request, redirect, url_for, send_file, request,flash
 from flask_wtf import FlaskForm
 from wtforms import DateField, RadioField, TextAreaField, StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired, Length, Optional
@@ -124,7 +124,7 @@ import json
 def survey():
     sform = surveyform()
     if sform.is_submitted():
-        print("Your answer is successfully submitted")
+        flash("Your answer is successfully submitted")
     if sform.validate_on_submit():
         data = sform.data
         with open(basedir + '/static/survey_data.json', 'w') as data_file:
