@@ -2,7 +2,6 @@
 # Developing Duration: 2019/8/10 - 8/16
 
 
-
 from flask import Flask, render_template, request, redirect, url_for, send_file, request
 from flask_wtf import FlaskForm
 from wtforms import DateField, RadioField, TextAreaField, StringField, SubmitField, SelectField
@@ -18,8 +17,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ness001'
 app.config['TESTING'] = True  # in order to bypass recaptcha when in developer mode
-app.config['UPLOADED_PHOTOS_DEST'] = basedir+'/photos'
-
+app.config['UPLOADED_PHOTOS_DEST'] = basedir + '/photos'
 
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
@@ -28,7 +26,7 @@ patch_request_class(app)
 
 class certform(FlaskForm):
     yourname = StringField('YOURNAME', validators=[InputRequired(message='Please type in your name'),
-                                                   Length(min=1, message='must be between 5-10')])
+                                                   Length(min=1, message='must type in 1+ words')])
     yourphoto = FileField('YOURPHOTO', validators=[FileRequired(message='Please upload your ID photo'),
                                                    FileAllowed(photos, 'Images only!')])
     submit = SubmitField()
@@ -36,10 +34,10 @@ class certform(FlaskForm):
 
 def generate_cert(name, photo_path):
     background = Image.open(
-        basedir+"/static/image001.png")  # need to be edited on server
+        basedir + "/static/image001.png")  # need to be edited on server
     portrait = Image.open(photo_path)
     draw = ImageDraw.Draw(background)
-    myfont = ImageFont.truetype(basedir+"/static/STHeiti Medium.ttc",
+    myfont = ImageFont.truetype(basedir + "/static/STHeiti Medium.ttc",
                                 size=20)  # font type need to be double-checked
     fillcolor = 'black'
     text = name  # name length should take into consideration
@@ -78,7 +76,7 @@ def cert():
         yourname = yourinfo.yourname.data  # get inputted name
         ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 16)) + '.'
         filename = photos.save(yourinfo.yourphoto.data, name=ran_str)
-        pic = generate_cert(yourname, basedir+'/photos' + '/' + filename)
+        pic = generate_cert(yourname, basedir + '/photos' + '/' + filename)
         # save certification in var pic
         return show_img(pic)
     return render_template('certification.html', form=yourinfo)
@@ -105,13 +103,13 @@ class surveyform(FlaskForm):
     #                        choices=[(3, ''), (2, ''), (1, ''), (0, ''), (-1, ''), (-2, ''), (-3, '')])
     # family = RadioField('family', coerce=int,
     #                     choices=[(3, ''), (2, ''), (1, ''), (0, ''), (-1, ''), (-2, ''), (-3, '')])
-    colleague = SelectField('colleague',coerce=int,
+    colleague = SelectField('colleague', coerce=int,
                             choices=[(3, 'Exceptional'), (2, 'Excellent'), (1, 'Good'), (0, 'Fair'), (-1, 'Poor'),
                                      (-2, 'Very poor'), (-3, 'Not applicable')], validators=[InputRequired()])
-    community = SelectField('community',coerce=int,
+    community = SelectField('community', coerce=int,
                             choices=[(3, 'Exceptional'), (2, 'Excellent'), (1, 'Good'), (0, 'Fair'), (-1, 'Poor'),
                                      (-2, 'Very poor'), (-3, 'Not applicable')], validators=[InputRequired()])
-    family = SelectField('family',coerce=int,
+    family = SelectField('family', coerce=int,
                          choices=[(3, 'Exceptional'), (2, 'Excellent'), (1, 'Good'), (0, 'Fair'), (-1, 'Poor'),
                                   (-2, 'Very poor'), (-3, 'Not applicable')], validators=[InputRequired()])
     text = TextAreaField('enter your comments', validators=[Optional()])
@@ -119,10 +117,16 @@ class surveyform(FlaskForm):
     submit = SubmitField()
 
 
+import json
+
+
 @app.route('/', methods=['get', 'post'])
 def survey():
     sform = surveyform()
     if sform.validate_on_submit():
+        data = sform.data
+        with open(basedir + '/static/survey_data.json', 'w') as data_file:
+            json.dump(data, data_file)
         return redirect(url_for('cert'))
     return render_template('survey2019.html', form=sform)
 
