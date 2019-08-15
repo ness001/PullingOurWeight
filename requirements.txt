@@ -1,0 +1,5 @@
+Flask==1.1.1
+Flask_Uploads==0.2.1
+WTForms==2.2.1
+Flask_WTF==0.14.2
+Pillow==6.1.0
