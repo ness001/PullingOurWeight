@@ -14,10 +14,12 @@ from flask_wtf.file import FileField, FileRequired, FileAllowed
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 import os, random, string
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ness001'
 app.config['TESTING'] = True  # in order to bypass recaptcha when in developer mode
-app.config['UPLOADED_PHOTOS_DEST'] = '/home/site/wwwroot/photos'
+app.config['UPLOADED_PHOTOS_DEST'] = basedir+'/photos'
+
 
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
@@ -34,10 +36,10 @@ class certform(FlaskForm):
 
 def generate_cert(name, photo_path):
     background = Image.open(
-        r"/static/image001.png")  # need to be edited on server
+        basedir+"/static/image001.png")  # need to be edited on server
     portrait = Image.open(photo_path)
     draw = ImageDraw.Draw(background)
-    myfont = ImageFont.truetype(u"/home/site/wwwroot/static/STHeiti Medium.ttc",
+    myfont = ImageFont.truetype(basedir+"/static/STHeiti Medium.ttc",
                                 size=20)  # font type need to be double-checked
     fillcolor = 'black'
     text = name  # name length should take into consideration
@@ -76,7 +78,7 @@ def cert():
         yourname = yourinfo.yourname.data  # get inputted name
         ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 16)) + '.'
         filename = photos.save(yourinfo.yourphoto.data, name=ran_str)
-        pic = generate_cert(yourname, '/home/site/wwwroot/photos' + '/' + filename)
+        pic = generate_cert(yourname, basedir+'/photos' + '/' + filename)
         # save certification in var pic
         return show_img(pic)
     return render_template('certification.html', form=yourinfo)
