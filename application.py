@@ -124,9 +124,9 @@ import json
 def survey():
     sform = surveyform()
     if sform.validate_on_submit():
-        data = sform.data
-        with open(basedir + '/static/survey_data.json', 'w') as data_file:
-            json.dump(data, data_file)
+        # data = sform.data
+        # with open(basedir + '/static/survey_data.json', 'w') as data_file:
+        #     json.dump(data, data_file)
         flash('Your answer is submitted!')
         return redirect(url_for('cert'))
     return render_template('survey2019.html', form=sform)
