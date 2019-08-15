@@ -77,8 +77,10 @@ def cert():
         ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 16)) + '.'
         filename = photos.save(yourinfo.yourphoto.data, name=ran_str)
         pic = generate_cert(yourname, basedir + '/photos' + '/' + filename)
+        # pic.save(basedir+'/cert_generated/'+filename)
         # save certification in var pic
         return show_img(pic)
+        # return
     return render_template('certification.html', form=yourinfo)
 
 
