@@ -2,7 +2,7 @@
 # Developing Duration: 2019/8/10 - 8/16
 
 
-from flask import Flask, render_template, request, redirect, url_for, send_file, request,flash
+from flask import Flask, render_template, request, redirect, url_for, send_file, request, flash
 from flask_wtf import FlaskForm
 from wtforms import DateField, RadioField, TextAreaField, StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired, Length, Optional
@@ -84,6 +84,7 @@ def cert():
 
 class surveyform(FlaskForm):
     date = DateField('Clean Up Date', validators=[InputRequired()])
+
     identity = RadioField('identity', coerce=int,
                           choices=[(1, 'Dow employee'), (2, 'Dow contractor'), (3, 'Dow customer'),
                                    (4, 'Dow family member'), (5, 'Community partner or other stakeholder')],
@@ -117,17 +118,45 @@ class surveyform(FlaskForm):
     submit = SubmitField()
 
 
+import datetime
 import json
+import csv
+
+
+def gmt_converter(o):
+    if isinstance(o, datetime.datetime):
+        GMT_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
+        return datetime.datetime.strptime('Wed, 02 Jan 2019 00:00:00 GMT', GMT_FORMAT) + datetime.timedelta(hours=8)
 
 
 @app.route('/', methods=['get', 'post'])
 def survey():
     sform = surveyform()
     if sform.validate_on_submit():
-        # data = sform.data
-        # with open(basedir + '/static/survey_data.json', 'w') as data_file:
-        #     json.dump(data, data_file)
-        flash('Your answer is submitted!')
+        data = sform.data
+
+        toCSV = [data]
+        keys = toCSV[0].keys()
+        with open(basedir+'/static/data.csv', 'a') as output_file:
+            dict_writer = csv.DictWriter(output_file, keys)
+            dict_writer.writeheader()
+            dict_writer.writerows(toCSV)
+
+        # with open(basedir+'/static/survey_data.json') as f:
+        #     j = json.load(f)
+        # j.update(data)
+        # with open(basedir + '/static/survey_data.json','w') as f:
+        #     json.dump(j,f,default=str)
+
+
+        # with open(basedir+'/static/survey_data.json', 'w', encoding='utf-8') as file:
+        #     nj=json.dumps(data,default=str)
+        #     file.write(nj)
+        #     file.close()
+        # flash(json.dumps(data, default=str))
+        # flash(data)
+
+
         return redirect(url_for('cert'))
     return render_template('survey2019.html', form=sform)
 
