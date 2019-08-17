@@ -1,0 +1,50 @@
+{% from '_render_errors.html' import render_errors %}
+
+<!DOCTYPE html>
+
+<html lang="=en">
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name='viewport' content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        Certification
+    </title>
+    <link rel='stylesheet' href="static/mystyle.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+
+<body>
+
+<div class="container">
+    <div class="pl-3 pr-3 pt-4">
+
+
+
+        <form method="post" action="{{url_for('meme')}}" enctype="multipart/form-data">
+
+            {{form.csrf_token}}
+
+            {{form.words(class='form-control',placeholder='Your words')}}
+            {{render_errors(form.words)}}
+
+            {{render_errors(form.words)}}
+
+            {{form.submit(class="btn btn-primary")}}
+
+
+        </form>
+    </div>
+
+</div>
+
+
+</body>
+
+</html>
