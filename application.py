@@ -37,7 +37,7 @@ def generate_cert(name, photo_path):
         basedir + "/static/image001.png")  # need to be edited on server
     portrait = Image.open(photo_path)
     draw = ImageDraw.Draw(background)
-    myfont = ImageFont.truetype(basedir + "static/PingFang.ttc",
+    myfont = ImageFont.truetype(basedir + "/static/PingFang.ttc",
                                 size=20)  # font type need to be double-checked
     fillcolor = 'black'
     text = name  # name length should take into consideration
@@ -178,7 +178,7 @@ def gen_meme(words):
     background = Image.open(
         basedir + "/static/IMG_8223.jpg")  # need to be edited on server
     draw = ImageDraw.Draw(background)
-    myfont = ImageFont.truetype(basedir + "static/PingFang.ttc",
+    myfont = ImageFont.truetype(basedir + "/static/PingFang.ttc",
                                 size=20)  # font type need to be double-checked
     text = words  # name length should take into consideration
 
