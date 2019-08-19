@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="=en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name='viewport' content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+
+    </title>
+
+
+    <style>
+        .table {
+            font-size: 12px;
+            width: 10px
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class='pl-3 pl-3'>
+        <div class="container">
+            <br>
+            <h3 style='color: #415364'>2019 #PullingOurWeight Campaign Survey</h3>
+            <div class="row">
+                <div class="container">
+                    <div class="col" style="background: #e80033;height: 10px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="container">
+            <div class="form-group">
+                <strong> 1. Cleanup date:</strong>
+                <input type="date" id="date" placeholder="yyyy/mm/dd" required>
+            </div>
+
+
+            <form>
+                <strong>2. I am a</strong>
+                <div class="radio">
+                    <label><input type="radio" name="identity" value='Dow employee'>Dow employee</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="identity" value='Dow contractor'>Dow contractor</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="identity" value='Dow customer'>Dow customer</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="identity" value='Dow family member'>Dow family member</label>
+                </div>
+
+                <div class="radio">
+                    <label><input type="radio" name="identity" value='Community partner or other stakeholder'>Community
+                        partner or other stakeholder</label>
+                </div>
+            </form>
+
+            <br>
+
+            <form>
+                <strong>3. How satisfied were you with this event?</strong>
+                <div class="radio">
+                    <label><input type="radio" name="satisfactory" value=2>
+                        Very satisfied</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="satisfactory" value=1>
+                        Somewhat satisfied
+                    </label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="satisfactory" value=0>Neither satisfied nor dissatisfied</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="satisfactory" value=-1>Somewhat dissatisfied</label>
+                </div>
+
+                <div class="radio">
+                    <label><input type="radio" name="satisfactory" value=-2>Very dissatisfied</label>
+                </div>
+            </form>
+
+
+
+            <br>
+            <form>
+                <strong>4. How well-organized was this event?</strong>
+                <div class="radio">
+                    <label><input type="radio" name="organization" value=2>
+                        Very organized</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="organization" value=1>
+                        Somewhat organized
+                    </label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="organization" value=0>Neither organized nor disorganized</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="organization" value=-1>Somewhat disorganized</label>
+                </div>
+
+                <div class="radio">
+                    <label><input type="radio" name="organization" value=-2>Very disorganized</label>
+                </div>
+            </form>
+            <br>
+            <form>
+                <strong>5. How well-prepared were you for this event?</strong>
+                <div class="radio">
+                    <label><input type="radio" name="preparation" value=2>
+                        Very prepared</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="preparation" value=1>
+                        Somewhat prepared
+                    </label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="preparation" value=0>Neither prepared nor unprepared</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="preparation" value=-1>Somewhat unprepared</label>
+                </div>
+
+                <div class="radio">
+                    <label><input type="radio" name="preparation" value=-2>Very unprepared</label>
+                </div>
+            </form>
+            <br>
+
+
+            <strong>6. Stakeholder Engagement</strong>
+            <p>Rate the relationships developed with</p>
+            <table class="table table-sm">
+                <thead>
+
+                    <tr>
+                        <th scope='col' style="width:10%"></th>
+                        <th scope="col" style="width:10%">Dow colleague</th>
+                        <th scope="col" style="width:10%">community members</th>
+                        <th scope="col" style="width:10%">family members</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Exceptional</th>
+                        <td><input type="radio" name="colleague" value=3></td>
+                        <td><input type="radio" name="community" value=3></td>
+                        <td><input type="radio" name="family" value=3></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Excellent</th>
+                        <td><input type="radio" name="colleague" value=2></td>
+                        <td><input type="radio" name="community" value=2></td>
+                        <td><input type="radio" name="family" value=2></td>
+                    </tr>
+
+
+                    <tr>
+                        <th scope="row">Good</th>
+                        <td><input type="radio" name="colleague" value=1></td>
+                        <td><input type="radio" name="community" value=1></td>
+                        <td><input type="radio" name="family" value=1></td>
+                    </tr>
+
+
+                    <tr>
+                        <th scope="row">Fair</th>
+                        <td><input type="radio" name="colleague" value=0></td>
+                        <td><input type="radio" name="community" value=0></td>
+                        <td><input type="radio" name="family" value=0></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Poor</th>
+                        <td><input type="radio" name="colleague" value=-1></td>
+                        <td><input type="radio" name="community" value=-1></td>
+                        <td><input type="radio" name="family" value=-1></td>
+                    </tr>
+
+
+                    <tr>
+                        <th scope="row">Very poor</th>
+                        <td><input type="radio" name="colleague" value=-2></td>
+                        <td><input type="radio" name="community" value=-2></td>
+                        <td><input type="radio" name="family" value=-2></td>
+                    </tr>
+
+
+                    <tr>
+                        <th scope="row">Not applicable</th>
+                        <td><input type="radio" name="colleague" value=-3></td>
+                        <td><input type="radio" name="community" value=-3></td>
+                        <td><input type="radio" name="family" value=-3></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+        <br>
+        <div class="container">
+            <strong>7. Additional comments</strong>
+            <textarea class="form-control" id="comments" rows="3"></textarea>
+        </div>
+
+
+
+
+
+
+        <br>
+
+        <div class="container">
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </div>
+
+
+
+
+
+        <footer class='text-center  py-4' style="color:#415364">
+            @Dow 2019
+        </footer>
+</body>
+
+</div>
+
+</html>

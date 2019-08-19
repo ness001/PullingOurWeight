@@ -1,0 +1,2514 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://28.selectsurvey.net/dow/TakeSurvey.aspx?SurveyID=78K3n643H# -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>
+	
+			
+		
+</title> 
+		<!--
+'***********************************************************************
+'   (c) Copyright by ClassApps 2002-2016
+'   Application:  SelectSurvey.NET
+'   COPYRIGHT NOTICE:  See attached Software License Agreement
+'   All rights are reserved.  Reproduction or transmission in whole or in part, in
+'   any form or by any means, electronic, mechanical or otherwise, is prohibited								
+'   without the prior written consent of the copyright owner.
+'
+'***********************************************************************
+-->
+	</head>
+	<body class="SurveyBodyStyle vsc-initialized" onload="cc()"><div id="WzTtDiV" style="visibility: hidden; position: absolute; overflow: hidden; padding: 0px; width: 0px; left: 0px; top: 0px;"></div>
+
+        <!-- the below must be in body tag or will not work -->
+        <link href="./TakeSurvey_files/TakeSurveyStyle.css" rel="stylesheet" type="text/css" title="Style">
+		<meta content="Microsoft Visual Studio .NET 7.1" name="GENERATOR">
+		<meta content="C#" name="CODE_LANGUAGE">
+		<meta content="JavaScript" name="vs_defaultClientScript">
+		<meta content="http://schemas.microsoft.com/intellisense/ie5" name="vs_targetSchema">
+		
+
+        <!--Note!  Due to some clients using CloudFlare on their custom URLs we have to add  data-cfasync="false" to all script references to disable it - because it breaks the back/next javascript -->
+        <script data-cfasync="false" language="javascript" type="text/javascript" src="./TakeSurvey_files/jquery-1.6.2.min.js.download"></script>
+		<script data-cfasync="false" type="text/javascript" src="./TakeSurvey_files/jquery.tinymce.js.download"></script>
+		<script data-cfasync="false" language="javascript" type="text/javascript" src="./TakeSurvey_files/jquery.meio.mask.min.js.download"></script>
+		<script data-cfasync="false" language="JavaScript" src="./TakeSurvey_files/Utility.js.download"></script>
+    
+	
+		<script data-cfasync="false" type="text/javascript" language="JavaScript" src="./TakeSurvey_files/ieupdate.js.download"></script>
+        <script data-cfasync="false" type="text/javascript" language="JavaScript" src="./TakeSurvey_files/slider.js.download"></script>
+        <script data-cfasync="false" language="javascript" type="text/javascript" src="./TakeSurvey_files/jquery.datePicker.js.download"></script>
+        <script data-cfasync="false" language="javascript" type="text/javascript" src="./TakeSurvey_files/date.js.download"></script>       
+        <script data-cfasync="false" src="./TakeSurvey_files/date_en.js.download"></script>
+        <link type="text/css" rel="stylesheet" href="./TakeSurvey_files/datePicker.css">
+
+
+      <!--  <link rel="stylesheet" href="ClientInclude/angular/angular-material.css"> -->
+                        
+
+
+             
+
+             <!--scripts for digital signature question type -->
+   <!--     <script data-cfasync="false"  type="text/javascript" src="ClientInclude/jquery-1.8.2.min.js"></script>-->
+<script data-cfasync="false" type="text/javascript" src="./TakeSurvey_files/jquery.signaturepad.min.js.download"></script>
+  <!--[if lt IE 9]><script data-cfasync="false"  src="ClientInclude/tsig/flashcanvas.js"></script><![endif]-->
+        <!--end digital signature -->
+
+
+        <!--scripts for clickable image map question type -->
+ <script data-cfasync="false" src="./TakeSurvey_files/jquery.imagemapster.min.js.download" type="text/javascript"></script>
+         <script data-cfasync="false" type="text/javascript">//<![CDATA[
+             $(window).load(function () {
+                 $('img').mapster({
+                     fillOpacity: 0.3,
+                     
+                     fillColor: 'ff0000',
+                     
+                     stroke: true,
+                     strokeWeight: 2,
+                   
+                     strokeColor: '00ff00',
+                    
+                     areas: [
+        {
+        //preselects areas with state="MO"
+            key: 'MO',
+            selected: true,
+            render_select: {
+               
+                fillColor: 'ff0000',
+                stroke: true
+            }
+        }
+        
+   ],
+                     mapKey: 'state'
+                 });
+            
+             });//]]>  
+</script>
+
+
+		<script data-cfasync="false" language="JavaScript" type="text/javascript">
+		<!--
+
+		    //date picker js
+		    Date.format = 'mm/dd/yyyy';
+
+            $(function()
+            {
+                $('.date-pick').datePicker({autoFocusNextInput: true, startDate: '01/01/1900'});               
+            });
+		    // connect the question condition triggers
+		    $(function() {
+                $("#frmSurvey").submit(function(eventObject) {
+                if ($('img[name="btnNext"]').length == 1){
+                        submitCheck(3);
+                        return false;
+                    }
+                if ($('img[name="btnDone"]').length == 1){
+                        submitCheck(1);
+                        return false;
+                    }
+                    return false;
+                });
+
+		        $(".qc_trigger").click(function() {
+		            var matches = $(this).attr("class").match(/\d+$/);
+		            //alert($(this).attr("class"));
+		            if ($(this).attr("turnOffQuestionCondition") == "yes") {
+                        $(".qc_" + matches[0]).hide();
+		                return;
+		            }
+		            if ($(this).attr("checked")) {
+                        $(".qc_" + matches[0]).show();
+                      
+		            } else {
+                        $(".qc_" + matches[0]).hide();
+		            }
+		        });
+
+		        $(".qc_trigger_select").change(function() {
+		            var triggers = $(this).attr("triggers").split('|');
+		            var selection = $(this).val();
+		            var found = false;
+		            var matches = $(this).attr("class").match(/\d+$/);
+		            for (var i = 0; i < triggers.length; i++) {
+		                if (triggers[i] == selection) {
+		                    $(".qc_" + matches[0]).show();
+		                    found = true;
+		                    break;
+		                }
+		            }
+                    if (!found) {
+                        $(".qc_" + matches[0]).hide();
+                    }
+
+		        });
+
+		        $("input[id^=ic_]").each(function() {
+		            var val = $(this).val();
+		             if (val != "")
+                     {
+		                // find the div parent
+		                $(this).parents("div[class^=qc_]").show();
+		            }
+		        });
+
+		        //2-25-2014 for matrix rating scale radio button matrix group jquery validation
+                //7-25-2014 added check for attribute which is set on edit item page.
+		        $("input:radio").click(function(){
+		            if($(this).attr("autocheckMatrixRatingScale") == "yes")
+		            {
+		                $("input."+this.className).not($(this)).each(function(){
+		                    this.checked = false;
+		                });
+		            }
+		        });
+
+		        //3/15/2014 added listener for clicks inside question div that triggers hide condition
+		       
+		        $(".hideshow").change(function(){
+		            if ($(this).attr("triggerHideCondition") == "yes") 
+		            {
+		                //  submitCheck(4);
+		                var itemid = this.id;
+		                var lastindexofunderscore = itemid.lastIndexOf('_');
+		                itemid = itemid.substring(lastindexofunderscore + 1);
+		                //alert('itemid:' + itemid);
+		                setButtonClick(4);
+		                setDirtyHiddenField();
+		                //document.forms['frmSurvey'].action = 'TakeSurveyAction.aspx#ItemID' + itemid;
+		                document.forms['frmSurvey'].action = 'TakeSurveyAction.aspx?scrollto=ItemID' + itemid;
+		                document.forms['frmSurvey'].submit();
+		                return;
+		            }
+		        });
+		      
+
+		    });
+
+
+
+            //for new matrix textbox sum total feature 7/14/2012
+            function sumRow(cellchanged) {
+              var sumCol = 0;
+              var sumRow = 0;
+              var sum = 0;
+              var thisRow = $(cellchanged).parent('tr');
+
+              //below gets Answer23241 the id of the cell in the matrix thats value was changed.
+              var cellid = $(cellchanged).attr('id');
+              //sum all input boxes in the column where input ids contain Answer23241. All inputs in column have same AnswerID (Answer23241) passed into function as cellchanged.
+              $("input[id^=" + cellid + "]").each(function() {
+              //only add if it is a number.  this is required or will concatenate as a string.
+              if(!isNaN(parseFloat(this.value)))
+              { sumCol += parseFloat(this.value);}
+              });
+
+            //put sum in the total box below this column only, identified by the Answer23241 (totalfieldAnswer23241 is id of total box for column)
+            var totalFieldInputId = "totalfield" + cellid;
+            $("input[id=" + totalFieldInputId + "]").val(sumCol);
+
+             //now sum row totals, all input fields with the same SIID will be summed together. 
+             //get SIID from current cell. name='QID2324||SIID4047||AID5380'
+             var splitChar = "||";
+             var rowAID= $(cellchanged).attr('name').split(splitChar)[2];
+             var rowSIID = $(cellchanged).attr('name').split(splitChar)[1];
+             var rowQID = $(cellchanged).attr('name').split(splitChar)[0];
+
+             //get row number part out of title before the space. (title='row2 5383')
+             //get row number part out of class attribute
+             //var rowNumberPart = $(cellchanged).attr('title').split(' ');
+             //remove "row" to get number
+             //var rowNumber = rowNumberPart[0].substring(3);
+             //class='sum1'
+             var rowNumberPart = $(cellchanged).attr('class');
+             //remove "sum" to get number
+             var rowNumber = rowNumberPart.substring(3);
+
+             //select and sum all inputs that have this rowSIID in substring for name
+               $("input[name*=" + rowSIID + "]").each(function() {
+                if(!isNaN(parseFloat(this.value)))
+              { sumRow += parseFloat(this.value);}
+              });
+
+              //set the sum into the total row text box.
+               $("input[id=totalRow" + rowQID + "Row" + rowNumber + "]").val(sumRow);
+
+            }
+
+
+		    //for new matrix textbox feature to sum vertical columns and divide to percentage across rows
+            function sumColDivideRows(cellchanged) {
+                var sumCol = 0;
+                var sumRow = 0;
+                var sum = 0;
+                var thisRow = $(cellchanged).parent('tr');
+
+                //below gets Answer23241 the id of the cell in the matrix thats value was changed.
+                var cellid = $(cellchanged).attr('id');
+                //sum all input boxes in the column where input ids contain Answer23241. All inputs in column have same AnswerID (Answer23241) passed into function as cellchanged.
+                $("input[id^=" + cellid + "]").each(function() {
+                    //only add if it is a number.  this is required or will concatenate as a string.
+                    if(!isNaN(parseFloat(this.value)))
+                    { sumCol += parseFloat(this.value);}
+                });
+
+                //put sum in the total box below this column only, identified by the Answer23241 (totalfieldAnswer23241 is id of total box for column)
+                var totalFieldInputId = "totalfield" + cellid;
+                $("input[id=" + totalFieldInputId + "]").val(sumCol);
+
+                //now divide row totals, divide first column by second column.
+                //get SIID from current cell. name='QID2324||SIID4047||AID5380'
+                var splitChar = "||";
+                var rowAID= $(cellchanged).attr('name').split(splitChar)[2];
+                var rowSIID = $(cellchanged).attr('name').split(splitChar)[1];
+                var rowQID = $(cellchanged).attr('name').split(splitChar)[0];
+                //get row number part out of title before the space. (title='row2 5383')
+                //get row number part out of class attribute
+                //var rowNumberPart = $(cellchanged).attr('title').split(' ');
+                //remove "row" to get number
+                //var rowNumber = rowNumberPart[0].substring(3);
+                //class='sum1'
+                var rowNumberPart = $(cellchanged).attr('class');
+                //remove "sum" to get number
+                var rowNumber = rowNumberPart.substring(3);
+                var colvaluearraytodivide="";
+                //select and divide first column in row by second column in row that have this rowSIID in substring for name
+                $("input[name*=" + rowSIID + "]").each(function(index) {
+                    if(!isNaN(parseFloat(this.value)))
+                    {  colvaluearraytodivide += this.value + ","; }
+                });
+                var splitChar2 = ",";
+                var firstNumberToDivide = colvaluearraytodivide.split(splitChar2)[0];
+                var secondNumberToDivideBy = colvaluearraytodivide.split(splitChar2)[1];
+                sumRow = parseFloat(secondNumberToDivideBy)/parseFloat(firstNumberToDivide)*100;
+                //set the sum into the total row text box.
+                $("input[id=totalRow" + rowQID + "Row" + rowNumber + "]").val(sumRow + "%");
+
+            }
+
+            //for new matrix textbox feature to sum vertical columns and divide to percentage across rows
+            function sumColAverageRows(cellchanged) {
+                var sumCol = 0;
+                var sumRow = 0;
+                var sum = 0;
+                var thisRow = $(cellchanged).parent('tr');
+
+                //below gets Answer23241 the id of the cell in the matrix thats value was changed.
+                var cellid = $(cellchanged).attr('id');
+                //sum all input boxes in the column where input ids contain Answer23241. All inputs in column have same AnswerID (Answer23241) passed into function as cellchanged.
+                $("input[id^=" + cellid + "]").each(function() {
+                    //only add if it is a number.  this is required or will concatenate as a string.
+                    if(!isNaN(parseFloat(this.value)))
+                    { sumCol += parseFloat(this.value);}
+                });
+
+                //put sum in the total box below this column only, identified by the Answer23241 (totalfieldAnswer23241 is id of total box for column)
+                var totalFieldInputId = "totalfield" + cellid;
+                $("input[id=" + totalFieldInputId + "]").val(sumCol);
+
+                //now divide row totals, divide first column by second column.
+                //get SIID from current cell. name='QID2324||SIID4047||AID5380'
+                var splitChar = "||";
+                var rowAID= $(cellchanged).attr('name').split(splitChar)[2];
+                var rowSIID = $(cellchanged).attr('name').split(splitChar)[1];
+                var rowQID = $(cellchanged).attr('name').split(splitChar)[0];
+                //get row number part out of title before the space. (title='row2 5383')
+                //get row number part out of class attribute
+                //var rowNumberPart = $(cellchanged).attr('title').split(' ');
+                //remove "row" to get number
+                //var rowNumber = rowNumberPart[0].substring(3);
+                //class='sum1'
+                var rowNumberPart = $(cellchanged).attr('class');
+                //remove "sum" to get number
+                var rowNumber = rowNumberPart.substring(3);
+               // var colvaluearraytodivide="";
+                var numberofcolumns = 0;
+                //select and average columns in row that have this rowSIID in substring for name
+                $("input[name*=" + rowSIID + "]").each(function(index) {
+                    if(!isNaN(parseFloat(this.value)))
+                    {  
+                        sumRow += parseFloat(this.value);
+                       // colvaluearraytodivide += this.value + ",";
+                        numberofcolumns ++;
+                    }
+                });
+                //divide sum by number of columns
+                sumRow = (parseFloat(sumRow)/parseFloat(numberofcolumns))*100;
+                
+                //set the sum into the total row text box.
+                $("input[id=totalRow" + rowQID + "Row" + rowNumber + "]").val(sumRow);
+
+            }
+
+
+       
+
+       //for new clickable image question type 10-7-2012
+       
+        function clickableImageMapsClick(itemid,mapid,alttext)
+        {
+	        var imgmapSelectedText = "";
+	        var imgmapClickText = 0;
+            //see if this area was already clicked
+            imgmapSelectedText = $("textarea[id=QID" + itemid + "]").val();
+   
+            if(!isNaN(parseInt($("input[id=QID" + itemid + "OTHERTEXT]").val()),10))
+            {
+                imgmapClickText = parseInt($("input[id=QID" + itemid + "OTHERTEXT]").val(),10);
+            }
+
+            //split string into array by comma separator
+            var selectedAreaArray = imgmapSelectedText.split(",");
+            var tmpTextStr = "";
+            var newBuiltStringFromArray = "";
+            var existsYN = "N";
+            for (var i = 0; i < selectedAreaArray.length; i++) 
+            { 
+                   tmpTextStr = selectedAreaArray[i].trim();
+                   if(tmpTextStr.length > 0)
+                   {
+                       if(tmpTextStr == alttext) 
+                       {
+                            //exists, so remove it from string by not adding it back to string.
+                            existsYN = "Y";
+                       }
+                       else
+                       {
+                           //does not exist, add to string
+                           newBuiltStringFromArray = newBuiltStringFromArray + tmpTextStr + ", ";
+                       }
+                   }
+            } 
+            if(existsYN == "Y")
+            {
+                imgmapClickText = parseInt(imgmapClickText,10) - 1;
+            }
+            else
+            {
+                newBuiltStringFromArray = newBuiltStringFromArray +  alttext + ", ";
+                imgmapClickText = parseFloat(imgmapClickText) + 1;
+            }
+            //replace with rebuilt string
+            imgmapSelectedText = newBuiltStringFromArray;
+           
+            
+            //update value of text area
+            $("textarea[id=QID" + itemid + "]").val(imgmapSelectedText);
+
+            //update value of click status textbox
+            $("input[id=QID" + itemid + "OTHERTEXT]").val(imgmapClickText);
+
+        }
+       
+
+      
+    
+           
+
+        var session_keep_alive;
+		    //1 minute * 60 seconds (60 * 1 second)
+            //below is for every 1 minute
+		    // var keep_alive_interval = 1 * (60 * 1000)
+		    //600000 = 600 seconds
+            //below is for every 9 minutes
+        var keep_alive_interval = 540000
+            //300000 = 5 min
+         // 540000 = 9 min
+           
+		    //2000 = 2 seconds
+		    //60000 = 60 seconds
+
+		$(function() {
+			initRichTextEditor();
+			session_keep_alive = setTimeout("SessionKeepAlive()", keep_alive_interval);
+
+		});
+                    
+        function SessionKeepAlive() {
+            $.post( "refresh_session.aspx", null,
+                function(data) { 
+					session_keep_alive = setTimeout("SessionKeepAlive()", keep_alive_interval);
+                }
+            );
+        }
+		
+		function initRichTextEditor() {
+			$(".richTextEditor").each(function() {
+				$(this).tinymce({
+					script_url : "clientinclude/tinyMCE/tiny_mce_sheryl.js",
+					// General options
+					theme : "advanced",
+					plugins : "safari,pagebreak,style,layer,table,advhr,advimage,advlink,emotions,inlinepopups,insertdatetime,preview,media,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+					// Theme options
+					theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,formatselect,fontselect,fontsizeselect",
+					theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+					theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,advhr,|,print,|,ltr,rtl,|,fullscreen",
+					theme_advanced_toolbar_location : "top",
+					theme_advanced_toolbar_align : "left",
+					theme_advanced_statusbar_location : "none",
+					theme_advanced_resizing : false,
+                force_br_newlines : true,
+force_p_newlines : false,
+forced_root_block : ""
+				});
+			});
+		}
+
+
+
+	function cc() {
+	    document.forms['frmSurvey'].cookieexists.value = "true";
+	    changeHashOnLoad();
+		
+	}
+	
+		    var storedHash = window.location.hash;
+		    function changeHashOnLoad() {
+		        window.location.href += "#";
+		        setTimeout("changeHashAgain()", "50");
+		    }
+
+		    function changeHashAgain() {
+		        window.location.href += "1";
+		    }
+
+		    function restoreHash() {
+		        if (window.location.hash != storedHash) {
+		            window.location.hash = storedHash;
+		        }
+		    }
+
+		    if (window.addEventListener) {
+		        window.addEventListener("hashchange", function () {
+		            restoreHash();
+		        }, false);
+		    }
+		    else if (window.attachEvent) {
+		        window.attachEvent("onhashchange", function () {
+		            restoreHash();
+		        });
+		    }
+
+    
+
+	function startResponseTimer(timeLeft, timerDuration, responseId)
+	{
+	    var idTimeElapsed = document.getElementById('idTimeElapsed');
+	    var idTimeRemaining = document.getElementById('idTimeRemaining');
+	    var idTimeTotal = document.getElementById('idTimeTotal');
+	    if (idTimeElapsed == null || idTimeRemaining == null || idTimeTotal == null)
+	    {
+	        setTimeout("startResponseTimer(" + timeLeft + ", " + timerDuration + ", " + responseId + ")", 100);
+	        return;
+	    }
+	    
+	    idTimeElapsed.innerHTML = timerDuration - timeLeft;
+	    idTimeRemaining.innerHTML = timeLeft;
+	    idTimeTotal.innerHTML = timerDuration;
+	    
+	    setTimeout("responseTimerTick(" + timeLeft + ", " + timerDuration + ", " + responseId + ")", 60000);
+	}
+	
+	function alertCommitChanges()
+	{
+	    //alert('Time has run out.  Last changes committed!');
+	    alert('Time has run out.  Last changes committed!');
+	    submitCheck(4);
+	}
+
+	
+   
+	function updateResponseTime(responseId, newTime)
+	{
+	   var ua = navigator.userAgent.toLowerCase();
+       if (!window.ActiveXObject)
+         request = new XMLHttpRequest();
+       else if (ua.indexOf('msie 5') == -1)
+         request = new ActiveXObject("Msxml2.XMLHTTP");
+       else
+         request = new ActiveXObject("Microsoft.XMLHTTP");
+         
+       var httpRequest = "SurveyUpdateTime.aspx?ResponseId=" + responseId + "&minutesCompleted=" + newTime;
+         
+       request.open("GET", httpRequest);
+       request.send(null);
+	}
+	
+
+	
+	function responseTimerTick(timeLeft, timerDuration, responseId)
+	{
+	    timeLeft--;
+	    
+	    var idTimeElapsed = document.getElementById('idTimeElapsed');
+	    var idTimeRemaining = document.getElementById('idTimeRemaining');
+	    var idTimeTotal = document.getElementById('idTimeTotal');
+	    
+	    updateResponseTime(responseId, timerDuration - timeLeft);
+	    
+	    idTimeElapsed.innerHTML = timerDuration - timeLeft;
+	    idTimeRemaining.innerHTML = timeLeft;
+	    idTimeTotal.innerHTML = timerDuration;
+	    
+	    if (timeLeft <= 0)
+	    {
+	        alertCommitChanges();
+	        return;
+	    } 
+	    
+	    setTimeout("responseTimerTick(" + timeLeft + ", " + timerDuration + ", " + responseId + ")", 60000);
+	}
+
+
+    function navigateToPage(pageNumber) {
+	    $("input[name=ActualPageNumber]").val(pageNumber - 1);
+	    $("input[name=DisplayPageNumber]").val(pageNumber - 1);
+	    $("input[name=hdnPreviousJSPageNumber]").val(1);
+         //   alert(pageNumber);
+       // alert("pageNumber-1:" + pageNumber + " actualPageNumber:" + actualPageNumber);
+	    submitCheck(3);
+    }
+
+    function navigateToPageAndStorePageFrom(pageNumber,pageNumberFrom) {
+        $("input[name=ActualPageNumber]").val(pageNumber - 1);
+        $("input[name=DisplayPageNumber]").val(pageNumber - 1);
+        $("input[name=hdnPreviousJSPageNumber]").val(1);
+      //  $("input[name=hdnPreviousJSPageNumber]").val(pageNumberFrom);
+        //submitCheck(3);
+        submitCheck(9);
+    }
+
+    //new to use links to go to pages and pass through custom paramaters for CRF
+    function navigateToPageWithCustomParamater(pageNumber,customParamater,pageNumberFrom) {
+      //  $("input[name=ActualPageNumber]").val(pageNumber - 1);
+      //  $("input[name=DisplayPageNumber]").val(pageNumber - 1);
+        $("input[name=hdnCustomParamaters]").val(customParamater);
+        $("input[name=hdnPreviousJSPageNumber]").val(1);
+        submitCheck(4); //save and stay on current page
+    }
+            //for add save
+		    function conflictbutton(customParamater)
+		    {
+		        var addconflict = document.getElementById("addconflict");
+		        addconflict.style.display="none";
+		      //  var additionalconflict =  document.getElementById("additionalconflict");
+		      //  additionalconflict.style.display="block";
+		        $("input[name=hdnCustomParamaters]").val(customParamater);
+		        $("input[name=hdnPreviousJSPageNumber]").val(1);
+                  submitCheck(4); //save and stay on current page
+                // submitCheck(3); //go to next page.
+		    }
+
+            //for edit save
+		    function saveconflictbutton(customParamater)
+		    {
+		        var addconflict = document.getElementById("addconflict");
+		        addconflict.style.display="none";
+		        var customParamater = "EU:" + "0" + ":" + "1";
+		        $("input[name=hdnCustomParamaters]").val(customParamater);
+		        $("input[name=hdnPreviousJSPageNumber]").val(1);
+                  submitCheck(4); //save and stay on current page
+               // submitCheck(3); //go to next page.
+		    }
+
+		    //for CRF custom NEXT button validation
+		    function submitCRFCheck(yesorno)
+		    {
+		        if(yesorno=="yes")
+		        {
+		            submitCheck(3);
+		        }
+		        else
+		        {
+		            alert("Please add at least one response.");
+		        }
+		    }
+
+		    function submitCRFCheckFromCancelButton(yesorno,pagetogoto)
+		    {
+		        if(yesorno=="yes")
+		        {
+		            //submitCheck(3);
+		            navigateToPage(pagetogoto);
+		        }
+		        else
+		        {
+		            alert("Please add at least one response.");
+		        }
+		    }
+
+		    //new to use links to save and hide fields for CRF
+		    //cancel button click: save, disable validation, hide question controls on current page.
+
+            //for CRF
+		    function cancelHideAndDisableOnSamePage(itemsToHide) {
+		        if(itemsToHide)
+		        {
+		            var str_array = itemsToHide.split('|');
+		            for(var i = 0; i < str_array.length; i++) 
+		            {
+		                var divs = document.body.getElementsByTagName("div");
+		                for (var j = 0; j < divs.length; j++) {
+		                    var test = "_hideshow_" + str_array[i];
+		                    if(divs[j].id.indexOf(test) >-1)
+		                    {
+		                        var divid = document.getElementById(divs[j].id);
+		                        if(divid)
+		                        {
+		                            //divid.style.visibility = "hidden";
+		                            divid.style.display="none";
+		                        }
+		                    }
+		                }
+		            }    
+		        }
+
+    }
+
+	function tabNavGoBack() {
+        navigateToPage(1);    
+	}
+
+      function printValue(sliderBoundTextBoxID, sliderValue) {
+            var x = document.getElementById(sliderBoundTextBoxID + "_BoundControl");
+            x.value = sliderValue;
+      }
+
+		    //update hidden field if form is dirty so that can update user workspace master response id 
+      $(':input').each(function() { 
+          $(this).data('initialValue', $(this).val()); 
+      }); 
+      
+
+      window.onbeforeunload = function(){ 
+          // var msg = 'You haven\'t saved your changes.'; 
+         
+          var isDirty = false; 
+ 
+          $(':input').each(function () { 
+              if($(this).data('initialValue') != $(this).val()){ 
+                  isDirty = true; 
+              } 
+          }); 
+ 
+          if(isDirty == true){ 
+              // return msg; 
+              var isDirtyHiddenField = document.getElementById('isFormDirty');
+              isDirtyHiddenField.value = "yes";
+          } 
+      }; 
+
+      function setDirtyHiddenField()
+      {
+          //called from onsubmitcheck that is rendered from code behind
+          var isDirty = false; 
+ 
+          $(':input').each(function () { 
+              if($(this).data('initialValue') != $(this).val()){ 
+                  isDirty = true; 
+              } 
+          }); 
+ 
+          if(isDirty == true){ 
+              // return msg; 
+              var isDirtyHiddenField = document.getElementById('isFormDirty');
+              isDirtyHiddenField.value = "yes";
+          } 
+      }
+            //end update hidden field if form is dirty
+	
+	/* Set a cookie to be sure that one exists.
+	Note that this is outside the function*/
+	document.cookie = 'killme' + escape('nothing');
+
+		    //document.cookie = "killme" + escape("nothing") + ";expires=" + new Date(); 
+
+
+	// -->
+	</script>
+	
+     
+
+		<script data-cfasync="false" language="javascript" type="text/javascript">
+		    function closeWindow() {
+		        if (navigator.appName == 'Microsoft Internet Explorer') {
+		            window.open('', '_parent', '');
+		            window.close();
+		        }
+		        else {
+		            /* alert("Your browser security does not allow automatic closing of the window.  Please manually close the window."); */
+		            alert("Your browser security does not allow automatic closing of the window.  Please manually close the window.");
+		        }
+		    }
+
+		    function setButtonClick(button) {
+		        document.getElementById('buttonclicked').value = button;
+		    }
+
+            function valButton(btn) {
+                if (btn == undefined)
+                    return;
+		        var cnt = -1;
+		        for (var i = btn.length - 1; i > -1; i--) {
+		            if (btn[i].checked) {
+		                //alert("btn value=" + btn[i].value);
+		                cnt = i;
+		                i = -1;
+		            }
+		        }
+		        if (cnt > -1)
+
+		            return btn[cnt].value;
+		        else return null;
+		    }
+
+
+
+		    // set the radio button with the given value as being checked
+		    // do nothing if there are no radio buttons
+		    // if the given value does not exist, all the radio buttons
+		    // are reset to unchecked
+		    function SelectOtherRadioButton(radioObj, newValue) {
+		        if (!radioObj)
+		            return;
+		        var radioLength = radioObj.length;
+		        if (radioLength == undefined) {
+		            radioObj.checked = (radioObj.value == newValue.toString());
+		            return;
+		        }
+		        for (var i = 0; i < radioLength; i++) {
+		            radioObj[i].checked = false;
+		            if (radioObj[i].value == newValue.toString()) {
+		                radioObj[i].checked = true;
+		            }
+		        }
+		    }
+
+            //pass in comma separated list of input names of cells to uncheck.
+		    function UncheckMatrixCheckboxOrRadioCell(itemNamesToUncheck) {
+		        //split list of input names and uncheck each
+		        var itemNameArray = itemNamesToUncheck.split(',');
+		        var arrayLength = itemNameArray.length;
+		        for (var i = 0; i < arrayLength; i++) {
+		            //alert(itemNameArray[i]);
+		            $("input[name='" + itemNameArray[i] + "']").attr('checked', false);
+		        }
+
+		    }
+
+            //this function will uncheck all checkboxes on the row except for the one checked that triggers this function.
+		    function UncheckMatrixCheckboxRow(clickedObj)
+		    {
+                 		       
+		            var thisClickedName = $(clickedObj).attr('name');
+		            // alert(thisClickedName);
+		            //get SIID from current cell. name='QID2324||SIID4047||AID5380'
+		            var splitChar = "||";
+		            var rowAID= thisClickedName.split(splitChar)[2];
+		            var rowSIID = thisClickedName.split(splitChar)[1];
+		            var rowQID = thisClickedName.split(splitChar)[0];
+		            //alert(rowSIID);
+		            $("input[name*=" + rowSIID + "]").each(function(index) {
+		                //alert(rowSIID);
+		                var val = $(this).attr('name');
+		                // alert(val);
+		                if ($(clickedObj).attr('checked'))
+		                {
+		                    if(val != thisClickedName)
+		                    {
+		                        $(this).attr('checked', false);
+		                        $(this).attr('disabled', true);
+		                    }
+		                }
+		                else 
+		                {
+		                    if(val != thisClickedName)
+		                    {
+		                        $(this).attr('checked', false);
+		                        $(this).attr('disabled', false);
+		                    }
+		                }
+
+		            });
+		        
+		       
+		    }
+
+
+
+		   
+            
+		</script> 
+ <link rel="stylesheet" href="./TakeSurvey_files/font-awesome.min.css">
+  
+     <!--   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">-->
+         <style type="text/css">
+            /* settings for range slider */
+         
+              /* style for matrix icons  */
+                .icon-thread input[type='radio'] {opacity:0;position:absolute;cursor: pointer;width:100px;}
+
+            /*.icon-thread input[type='radio'] + label {color: #B1B1B1;cursor:pointer;display: inline-block;margin-left:-5px; }
+            .icon-thread input[type='radio']:checked + label{color:#5F6F81;}
+            .icon-thread input[type='radio']:focus + label { color:orange;}*/
+            /*.icon-thread input[type='radio']:hover + label {color:pink;}*/
+
+            
+             .icon-thread:hover {background-color:lightyellow; }
+
+            
+             
+            /* end style for matrix icons  */
+             /* style for matrix icons old */
+             /*
+            .icon-thread input[type='radio'] {opacity:0;position:absolute;cursor: pointer;}
+            .icon-thread input[type='radio'] + label {color: #B1B1B1; text-shadow: 1px 1px #fff;}
+            .icon-thread input[type='radio']:checked + label{color:#5F6F81;}
+            .icon-thread input[type='radio']:focus + label { color:orange;}
+            .icon-thread input[type='radio']:hover + label {color:pink;}
+                 */
+            /* end style for matrix icons  */
+        </style>
+		<!--insert session timer script here-->
+		<script data-cfasync="false" language="javascript">startClock();updateClock(3300);</script>
+		<!--insert response timer script here-->
+		
+		<!--insert script block here -->
+		
+<script data-cfasync="false" language="JavaScript">
+function updateClock2(iTimeOutAlert)
+{
+setTimeout("updateClock('" + iTimeOutAlert + "');", 100);
+dNow = new Date();
+dWatch = dNow.getTime() - dStarted.getTime();
+dClock = Math.round(dWatch/1000);
+if (dClock == iTimeOutAlert)
+{
+alert('Your session will expire in 5 minutes.  \\nPlease save your work now by clicking the next button.  \\nYou can click the back button to finish your answers.');
+}
+}
+
+
+function isDate2(dateStr, itemIdStr) {
+var datePat = /^(\d{1,2})(\/|-|.)(\d{1,2})(\/|-|.)(\d{4})$/;
+var datePat1 = /^(\d{4})(\/|-|.)(\d{1,2})(\/|-|.)(\d{1,2})$/;
+var datePat2 = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(\/|-|.|\s)(\d{1,2})(\/|-|.|,\s)(\d{4})$/;
+var datePat3 = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(\/|-|.|\s)(\d{1,2})(\/|-|.|,\s)(\d{4})$/;
+var matchArray = null;
+if (dateStr.match(datePat2) != null) {
+ matchArray = dateStr.match(datePat2);
+ switch(matchArray[1]) { 
+   case 'Jan': month = 1; break; 
+   case 'Feb': month = 2; break; 
+   case 'Mar': month = 3; break; 
+   case 'Apr': month = 4; break; 
+   case 'May': month = 5; break; 
+   case 'Jun': month = 6; break; 
+   case 'Jul': month = 7; break; 
+   case 'Aug': month = 8; break; 
+   case 'Sep': month = 9; break; 
+   case 'Oct': month = 10; break; 
+   case 'Nov': month = 11; break; 
+   case 'Dec': month = 12; break; 
+   default: month = -1; 
+  } 
+
+ day = matchArray[3];
+ year = matchArray[5];
+var x = document.getElementById(itemIdStr); x.value = month + '/' + day + '/' + year;
+}
+else if (dateStr.match(datePat) != null) {
+ matchArray = dateStr.match(datePat);
+ day = matchArray[3];
+ month = matchArray[1];
+ year = matchArray[5];
+var xx = document.getElementById(itemIdStr); xx.value = month + '/' + day + '/' + year;
+}
+else if (dateStr.match(datePat1) != null) {
+ matchArray = dateStr.match(datePat1);
+ day = matchArray[5];
+ month = matchArray[3];
+ year = matchArray[1];
+}
+if (matchArray == null) {
+    alert('Please enter date as either mm/dd/yyyy or mm-dd-yyyy');
+    return false;
+}
+
+if (month < 1 || month > 12) { // check month range
+    alert('Month must be between 1 and 12');
+    return false;
+}
+ if (day < 1 || day > 31) {
+     alert('Day must be between 1 and 31.');
+     return false;
+ }
+ if ((month==4 || month==6 || month==9 || month==11) && day==31) {
+     alert('The month you selected does not have 31 days')
+     return false;
+ }
+ if (month == 2) { // check for february 29th
+    var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+    if (day > 29 || (day==29 && !isleap)) {
+        alert('February does not have that many days');
+        return false;
+    }
+ }
+return true; // date is valid
+}
+
+
+function isDateEuropean2(dateStr, itemIdStr) {                         
+   var day; var month; var year;                                       
+   var datePat =  /^(\d{1,2})(\/|-|.)(\d{1,2})(\/|-|.)(\d{4})$/;  
+   var datePat2 = /^(\d{4})(\/|-|.)(\d{1,2})(\/|-|.)(\d{1,2})$/;  
+   var datePat3 = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(\/|-|.|\s)(\d{1,2})(\/|-|.|,\s)(\d{4})$/; 
+   var matchArray = dateStr.match(datePat);                            
+   var matchArray2= dateStr.match(datePat2);                           
+   var matchArray3= dateStr.match(datePat3);                           
+   var xx = document.getElementById(itemIdStr);                        
+   if (matchArray != null) {                                           
+       day = matchArray[1];                                            
+       month = matchArray[3];                                          
+       year = matchArray[5];                                           
+       xx.value = day + '/' + month + '/' + year;                      
+   }                                                                   
+   else if (matchArray3 != null) {                                     
+       switch(matchArray3[1]) {                                        
+           case 'Jan': month = 1; break;                               
+           case 'Feb': month = 2; break;                               
+           case 'Mar': month = 3; break;                               
+           case 'Apr': month = 4; break;                               
+           case 'May': month = 5; break;                               
+           case 'Jun': month = 6; break;                               
+           case 'Jul': month = 7; break;                               
+           case 'Aug': month = 8; break;                               
+           case 'Sep': month = 9; break;                               
+           case 'Oct': month = 10; break;                              
+           case 'Nov': month = 11; break;                              
+           case 'Dec': month = 12; break;                              
+           default: month = -1;                                        
+       }                                                               
+       day = matchArray3[3];                                           
+       year = matchArray3[5];                                          
+       xx.value = day + '/' + month + '/' + year;                      
+   }                                                                   
+   else if (matchArray2 != null) {                                     
+       day = matchArray2[5];                                           
+       month = matchArray2[3];                                         
+       year = matchArray2[1];                                          
+   }                                                                   
+   else {                                                              
+       alert('Please enter date as either mm/dd/yyyy or mm-dd-yyyy');                     
+       return false;                                                   
+   }                                                                   
+   if (month < 1 || month > 12) { // check month range                 
+       alert('Month must be between 1 and 12');                     
+       return false;                                                   
+   }                                                                   
+   if (day < 1 || day > 31) {                                          
+       alert('Day must be between 1 and 31.');                     
+       return false;                                                   
+   }                                                                   
+   if ((month==4 || month==6 || month==9 || month==11) && day==31) {   
+       alert('The month you selected does not have 31 days')                      
+       return false;                                                   
+   }                                                                   
+   if (month == 2) { // check for february 29th                        
+       var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));   
+       if (day > 29 || (day==29 && !isleap)) {                         
+           alert('February does not have that many days');                 
+           return false;                                               
+       }                                                               
+   }                                                                   
+   return true; // date is valid                                       
+}                                                                      
+                                                                       
+function doSubmit() {
+   $('#frmSurvey').unbind('submit');
+   document.forms['frmSurvey'].action = 'TakeSurveyAction.aspx';
+   document.forms['frmSurvey'].submit();
+}
+
+function submitCheck(button){setButtonClick(button);setDirtyHiddenField();if(button == '2' ||  button == '4' || button=='9'){ doSubmit(); return; } if(button == '1'){ var btnDone = document.getElementById('btnDone'); btnDone.style.display='';}var flgValueSelected;
+var lngTotalValue = 0;
+var strTemp;
+var strSelectedValues ='';
+if (trim(document.forms['frmSurvey'].QID269024.value) == ''){alert('Please select a value for question number 1.');document.forms['frmSurvey'].QID269024.focus();document.forms['frmSurvey'].QID269024.style.border = 'solid 5px red';return;}
+if (trim(document.forms['frmSurvey'].QID269026.value) == ''){alert('Please select a value for question number 2.');document.forms['frmSurvey'].QID269026.focus();document.forms['frmSurvey'].QID269026.style.border = 'solid 5px red';return;}
+flgValueSelected = false;if (document.forms['frmSurvey'] != null){for (i = 0; i < document.forms['frmSurvey'].length; i++) {if (document.forms['frmSurvey'].elements[i].name == 'QID269028'){if (document.forms['frmSurvey'].elements[i].checked == true){flgValueSelected = true;}
+}
+}
+}
+if (flgValueSelected == false){alert('Please select a value for question number 3.');return;}
+flgValueSelected = false;if (document.forms['frmSurvey'] != null){for (i = 0; i < document.forms['frmSurvey'].length; i++) {if (document.forms['frmSurvey'].elements[i].name == 'QID269030'){if (document.forms['frmSurvey'].elements[i].checked == true){flgValueSelected = true;}
+}
+}
+}
+if (flgValueSelected == false){alert('Please select a value for question number 4.');return;}
+flgValueSelected = false;if (document.forms['frmSurvey'] != null){for (i = 0; i < document.forms['frmSurvey'].length; i++) {if (document.forms['frmSurvey'].elements[i].name == 'QID269032'){if (document.forms['frmSurvey'].elements[i].checked == true){flgValueSelected = true;}
+}
+}
+}
+if (flgValueSelected == false){alert('Please select a value for question number 5.');return;}
+flgValueSelected = false;if (document.forms['frmSurvey'] != null){for (i = 0; i < document.forms['frmSurvey'].length; i++) {if (document.forms['frmSurvey'].elements[i].name == 'QID269034'){if (document.forms['frmSurvey'].elements[i].checked == true){flgValueSelected = true;}
+}
+}
+}
+if (flgValueSelected == false){alert('Please select a value for question number 6.');return;}
+flgValueSelected = false;if (document.forms['frmSurvey'] != null){for (i = 0; i < document.forms['frmSurvey'].length; i++) {if (document.forms['frmSurvey'].elements[i].name == 'QID269036'){if (document.forms['frmSurvey'].elements[i].checked == true){flgValueSelected = true;}
+}
+}
+}
+if (flgValueSelected == false){alert('Please select a value for question number 7.');return;}
+flgValueSelected = false;if (document.forms['frmSurvey'] != null){for (i = 0; i < document.forms['frmSurvey'].length; i++) {if (document.forms['frmSurvey'].elements[i].name == 'QID269038'){if (document.forms['frmSurvey'].elements[i].checked == true){flgValueSelected = true;}
+}
+}
+}
+if (flgValueSelected == false){alert('Please select a value for question number 8.');return;}
+var coll = document.forms['frmSurvey'];var flgAllRowsSelected = true;flgValueSelected = false;if (document.forms['frmSurvey'] != null) {for (i = 0; i < document.forms['frmSurvey'].length; i++){strTemp = coll.elements[i].name;if (strTemp.indexOf('QID269040') > -1){if (document.forms['frmSurvey'].elements[i].checked == true){flgValueSelected = true;}
+if (coll.elements[i + 1].name != strTemp){if (flgValueSelected == true){flgValueSelected = false;}
+else{flgAllRowsSelected = false;}
+}
+}
+}
+}
+if (flgAllRowsSelected == false){alert('Please select a value for question number 9.');return;}
+var coll = document.forms['frmSurvey'];var flgAllRowsSelected = true;flgValueSelected = false;if (document.forms['frmSurvey'] != null) {for (i = 0; i < document.forms['frmSurvey'].length; i++){strTemp = coll.elements[i].name;if (strTemp.indexOf('QID269042') > -1){if (document.forms['frmSurvey'].elements[i].checked == true){flgValueSelected = true;}
+if (coll.elements[i + 1].name != strTemp){if (flgValueSelected == true){flgValueSelected = false;}
+else{flgAllRowsSelected = false;}
+}
+}
+}
+}
+if (flgAllRowsSelected == false){alert('Please select a value for question number 10.');return;}
+doSubmit();}
+</script>
+		<!--insert style block here -->
+		<style>.ProgressFirstColor{BACKGROUND-COLOR: #cacddb;}
+.ProgressSecondColor{BACKGROUND-COLOR: #ffffff;}
+.SurveyColor{BACKGROUND-COLOR: #ffffff;}
+.SurveyBorder{BACKGROUND-COLOR: #ef3e42;}
+.SurveyBodyStyle{FONT-FAMILY : Verdana ;BACKGROUND-COLOR :#f1f2f7 ;COLOR : #000000 ;MARGIN-LEFT: 3;MARGIN-RIGHT: 0;MARGIN-BOTTOM: 0;MARGIN-TOP: 15; } 
+.Normal{COLOR: #000000;FONT-FAMILY: Verdana;FONT-SIZE: 16px;FONT-WEIGHT: Normal;}
+.Required{COLOR: red;FONT-FAMILY: Verdana;FONT-SIZE: 10px;}
+.H1HeadingStyle{COLOR: #000000;FONT-FAMILY: Verdana;FONT-WEIGHT: Bold;FONT-SIZE: 20px;}
+.SurveyName{COLOR: #000000;FONT-FAMILY: Verdana;FONT-WEIGHT: Bold;FONT-SIZE: 20px;}
+.PageNumberFontStyle{COLOR: #000000;FONT-FAMILY:Verdana;FONT-WEIGHT: Normal;FONT-SIZE: 16px;}
+.InlineHelpSpanStyle{COLOR: #000000;FONT-FAMILY: Verdana;FONT-SIZE: 14px;FONT-WEIGHT: Normal;}
+.SurveyPageTitle{COLOR: #000000; FONT-FAMILY: Verdana;FONT-SIZE: 18px;FONT-WEIGHT: Bold;}
+.QuestionHeadingStyle{COLOR: #000000;FONT-FAMILY: Verdana;FONT-SIZE: 18px;FONT-WEIGHT: Bold }
+.SurveyNavigationLink A{COLOR: #000000; FONT-FAMILY: Verdana;FONT-SIZE: 18px;FONT-WEIGHT: Normal;}
+.SurveyMatrixHeadingRowText{COLOR: #000000   ;FONT-FAMILY:Verdana;FONT-WEIGHT: Bold;FONT-SIZE: 16px;}
+
+.SurveyPageIntroduction{COLOR: #000000   ;FONT-FAMILY:Verdana;FONT-WEIGHT: Bold;FONT-SIZE: 16px;}
+</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="./TakeSurvey_files/css" rel="stylesheet" type="text/css">
+<style type="" text="" css""=""> 
+text-size-adjust: auto;
+html {
+    height: 100%;
+  width: 100%;
+ 
+}
+.SurveyName {font-family: 'Open Sans', sans-serif; font-weight: 700;}
+.SurveyName{visibility:hidden;} 
+.SurveyBodyStyle /*style on survey body tag*/{
+    height:100%;
+  width: 100%;
+    position:static;
+
+}
+table[style$="#ffffff"] {}
+.SurveyColor /*color of background box of survey within the survey border*/{
+	overflow: hidden;
+	-moz-border-radius: 10px;
+	border-radius: 10px;   
+        position: static; 
+        float: center;
+        top:0px;
+        width:100%;
+        height: 100%;  
+} 
+.SurveyBorder, 
+table[style$="#EF3E42"] /*border width and style of box that goes around survey page*/{
+	overflow-x: hidden; 
+      position:absolute;
+right: 5px;
+left:  5px;
+        position: absolute;
+        width:95%;
+        height: 95%;
+ margin: 0 auto;  
+        float: center;
+        top: 100px;
+        /* Rounded Corners */
+	-moz-border-radius: 10px;
+	border-radius: 10px; 
+color:#EF3E42;
+
+	
+}
+
+table[style$="#f5f2ed"] {
+	overflow: hidden;
+	/*border: solid #f5f2ed 1px; */
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 15px;
+} 
+
+table[style$="#f5f2ed"] span, table[style$="#f5f2ed"] p {
+	font-family: 'Gudea', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	font-size: 140%;
+}
+
+.button {
+border-radius: 5px;
+	color: #fff;
+	text-decoration: none;
+	padding: 16px 32px;
+	background-color: #8FCF45;
+	transition: all .2s linear;
+
+}
+.button:hover {
+    border: 2px solid #008CBA;
+	transition: all .2s ease-in-out;
+
+
+}
+#btnNext {
+       color: white;
+background: rgb(28, 184, 65); /* this is a green */
+}
+#btnBack {
+color: white;
+       background: #EF3E42; /* this is an orange */
+
+}
+#btnCancel {
+color: white;
+       background: #EF3E42; /* this is an orange */
+}
+#addConflict {
+       color: white;
+background: rgb(28, 184, 65); /* this is a green */
+}
+#saveConflict {
+       color: white;
+background: rgb(28, 184, 65); /* this is a green */
+}
+
+ /* settings for range slider */
+        input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 13.8px 0;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -14px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #7eb0da;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #142f46;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-fill-upper {
+  background: #3071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  height: 8.4px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #7eb0da;
+}
+                  
+/* style for matrix icons  */
+.icon-thread input[type='radio'] {opacity:0;position:absolute;cursor: pointer;width:100px;}
+.icon-thread input[type='radio'] + label {cursor:pointer;display: inline-block;margin-left:-5px; }
+.icon-thread input[type='radio']:checked + label{color:black;}
+.icon-thread input[type='radio']:focus + label { color:orange;}
+/*.icon-thread input[type='radio']:hover + label {color:pink;}*/
+.icon-thread:hover {background-color:yellow; }
+
+.red{color:red;}  
+.green{color:green;}  
+.blue{color:blue;}  
+   
+
+/*settings for touch single choice buttons question type*/
+.radio-toolbar input[type="radio"] {
+    display:none; 
+}
+
+.radio-toolbar label {
+width: 90%;
+cursor:pointer;display: inline-block;margin-left:5px; 
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 7;
+  -moz-border-radius: 7;
+  border-radius: 7px;
+  font-family: Arial;
+  color: #ffffff;
+
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  margin: 10px;
+text-align: center;
+}
+
+.radio-toolbar input[type="radio"]:checked + label { 
+     background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+@media (max-width: 767px) {
+  .visible-phone {
+    display: inherit !important;
+  }
+  .hidden-phone {
+    display: none !important;
+  }
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  .visible-tablet {
+    display: inherit !important;
+  }
+  .hidden-tablet {
+    display: none !important;
+  }
+  .hidden-desktop {
+    display: inherit !important;
+  }
+  .visible-desktop {
+    display: none !important ;
+  }
+}
+/* Landscape Phone */
+@media (max-width: 480px) {
+  /* Subnavigation */
+  .subnavigation li {
+    float: none;
+    margin-top: 0;
+  }
+  /* About us */
+  .about_us .Heading h1 {
+    font-size: 30px;
+    line-height: 30px;
+    margin-bottom: 30px;
+  }
+  /* jCarousel */
+  .jcarousel-next-horizontal {
+    right: 0;
+    background: url("../img/slider_arrow_next_hover_mobile.png") no-repeat scroll 0 0 transparent;
+    width: 13px;
+    height: 25px;
+  }
+  .jcarousel-next-horizontal:hover {
+    background: url("../img/slider_arrow_next_mobile.png") no-repeat scroll 0 0 transparent;
+  }
+  .jcarousel-prev-horizontal {
+    right: 30px;
+    background: url("../img/slider_arrow_prev_hover_mobile.png") no-repeat scroll 0 0 transparent;
+    width: 13px;
+    height: 25px;
+  }
+  .jcarousel-prev-horizontal:hover {
+    background: url("../img/slider_arrow_prev_mobile.png") no-repeat scroll 0 0 transparent;
+  }
+  /* Tabs */
+  .tab_head li {
+    float: none;
+  }
+  .tab1 .tab_head a.selected span {
+    color: #FFF;
+    background: none;
+  }
+  .tab1 .tab_head a.selected {
+    background-image: none;
+    background-color: #ff9c00;
+  }
+}
+/* All Mobile Sizes */
+@media (max-width: 767px) {
+  /* General */
+  body {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  .container {
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .row {
+    margin-left: 0;
+  }
+  .wrap {
+    width: auto;
+  }
+  [class*="span"] {
+    display: block;
+    float: none;
+    width: auto;
+    margin-left: 0;
+  }
+  h1 {
+    font-size: 28px;
+    line-height: 28px;
+  }
+  h2 {
+    line-height: 24px;
+    font-size: 22px;
+  }
+  h3 {
+    line-height: 24px;
+    font-size: 18px;
+  }
+  /* Sidebar */
+  .sidebar {
+    margin-top: 50px;
+  }
+  /* Awesome Slider */
+  .awesome-slider .slide-meta .title {
+    font-size: 30px;
+    line-height: 30px;
+  }
+  .awesome-slider .meta {
+    width: 90%;
+    padding: 0 5%;
+  }
+  /* Home */
+  .home_slogan {
+    font-size: 30px;
+    line-height: 40px;
+    padding: 25px 8%;
+  }
+  /* Blog Detail */
+  #commentform .textarea_input,
+  #commentform .text_input {
+    width: 90%;
+  }
+  /* About us */
+  .about_us .Heading h1 {
+    line-height: 50px;
+    margin-bottom: 40px;
+  }
+  /* Page background */
+  .page-background img {
+    width: auto;
+    max-width: none;
+  }
+  /* Contact */
+  .contact_page {
+    width: auto;
+  }
+  /* Portfolio */
+  .portfolio .intro h1 {
+    font-size: 36px;
+    line-height: 36px;
+  }
+  /* Footer */
+  #footer_content [class*="span"] {
+    margin-bottom: 30px;
+  }
+  #footer_bottom .social_icons {
+    float: none;
+  }
+  #footer_bottom .copyright {
+    line-height: 21px;
+    margin-bottom: 15px;
+  }
+  /* Photobox */
+  .photobox {
+    margin-bottom: 20px;
+  }
+  /* Testimonial */
+  .testimonial {
+    margin-bottom: 20px;
+  }
+  /* Textbox */
+  .text_box {
+    margin-bottom: 20px;
+  }
+  /* team View */
+  .team_view .content {
+    margin-top: 20px;
+  }
+  .team_meta .description {
+    font-size: 40px;
+  }
+  .team_view .content .navigator {
+    margin-bottom: 25px;
+    position: static;
+    float: left;
+  }
+}
+/* Tablet & Mobile */
+@media (max-width: 979px) {
+  /* Awesome Slider */
+  .awesome-slider {
+    height: 500px;
+  }
+  .awesome-slider.slider-container .slide-item,
+  .awesome-slider.slider-container .slide-meta {
+    width: auto;
+    position: relative;
+    height: 250px;
+  }
+  .awesome-slider .slide-meta {
+    float: none;
+  }
+  .awesome-slider .slide-item {
+    float: none;
+  }
+  /* Awesome Slider */
+  .awesome-slider .slide-meta .title {
+    font-size: 28px;
+    line-height: 28px;
+  }
+  .awesome-slider .meta {
+    width: 90%;
+    padding: 0 5%;
+  }
+  /* Welcome */
+  .welcome {
+	display: none;
+	position: relative;
+	margin-bottom: 0;
+	padding-right: 0;
+	}
+  /* Blog */
+  .blog_comments {
+    width: auto!important;
+  }
+  .blog .blog_post {
+    width: auto;
+  }
+  .blog .post_meta .post_icon,
+  .blog .post_meta .post_date {
+    float: left;
+  }
+  .blog .post_meta .post_icon {
+    margin-right: 15px;
+  }
+  .blog .post_meta .post_date {
+    margin-bottom: 0;
+  }
+  .blog .post_meta .label,
+  .blog .post_meta .info {
+    display: inline;
+  }
+  .blog .post_meta .info {
+    margin-right: 15px;
+  }
+  .blog .post_image {
+    margin-bottom: 15px;
+  }
+  .blog .separator {
+    margin-bottom: 10px;
+  }
+  .blog .post_meta {
+    margin-bottom: 15px;
+  }
+  /* Member detail */
+  .team_meta .description {
+    font-size: 40px;
+  }
+  /* Tagline */
+  .tagline p {
+    margin-bottom: 15px;
+  }
+  .tagline .link_button {
+    float: left;
+  }
+  /* Link Tags */
+  .link_tag {
+    padding-left: 23%;
+    width: 77%;
+    font-size: 16px;
+  }
+}
+/* Tablet Portrait size to standard 960 (devices and browsers) */
+@media (min-width: 768px) and (max-width: 979px) {
+  .wrap {
+    width: 764px;
+  }
+  .row {
+    margin-left: -20px;
+  }
+  [class*="span"] {
+    margin-left: 20px;
+  }
+  .container {
+    width: 724px;
+  }
+  .span12 {
+    width: 724px;
+  }
+  .span11 {
+    width: 662px;
+  }
+  .span10 {
+    width: 600px;
+  }
+  .span9 {
+    width: 538px;
+  }
+  .span8 {
+    width: 476px;
+  }
+  .span7 {
+    width: 414px;
+  }
+  .span6 {
+    width: 352px;
+  }
+  .span5 {
+    width: 290px;
+  }
+  .span4 {
+    width: 228px;
+  }
+  .span3 {
+    width: 166px;
+  }
+  .span2 {
+    width: 104px;
+  }
+  .span1 {
+    width: 42px;
+  }
+  .offset12 {
+    margin-left: 764px;
+  }
+  .offset11 {
+    margin-left: 702px;
+  }
+  .offset10 {
+    margin-left: 640px;
+  }
+  .offset9 {
+    margin-left: 578px;
+  }
+  .offset8 {
+    margin-left: 516px;
+  }
+  .offset7 {
+    margin-left: 454px;
+  }
+  .offset6 {
+    margin-left: 392px;
+  }
+  .offset5 {
+    margin-left: 330px;
+  }
+  .offset4 {
+    margin-left: 268px;
+  }
+  .offset3 {
+    margin-left: 206px;
+  }
+  .offset2 {
+    margin-left: 144px;
+  }
+  .offset1 {
+    margin-left: 82px;
+  }
+  /* Home */
+  .slogan {
+    font-size: 40px;
+    line-height: 45px;
+    padding: 30px 10%;
+  }
+  /* About Us*/
+  .about_us .Heading h1 {
+    font-size: 40px;
+    line-height: 50px;
+    margin-bottom: 40px;
+  }
+  .capabilities .titles li .circle {
+    right: 0px;
+  }
+  /* Widgets */
+  /* Flickr Widget */
+  .flickr_container .flickr_badge_image {
+    padding: 2px;
+  }
+  .flickr_badge_image .hover_image {
+    left: 2px;
+    top: 2px;
+  }
+}
+/* Large Desktop */
+@media (min-width: 1200px) {
+  .wrap {
+    width: 1230px;
+  }
+  .row {
+    margin-left: -30px;
+  }
+  [class*="span"] {
+    margin-left: 30px;
+  }
+  .container {
+    width: 1170px;
+  }
+  .span12 {
+    width: 1170px;
+  }
+  .span11 {
+    width: 1070px;
+  }
+  .span10 {
+    width: 970px;
+  }
+  .span9 {
+    width: 870px;
+  }
+  .span8 {
+    width: 770px;
+  }
+  .span7 {
+    width: 670px;
+  }
+  .span6 {
+    width: 570px;
+  }
+  .span5 {
+    width: 470px;
+  }
+  .span4 {
+    width: 370px;
+  }
+  .span3 {
+    width: 270px;
+  }
+  .span2 {
+    width: 170px;
+  }
+  .span1 {
+    width: 70px;
+  }
+  .offset12 {
+    margin-left: 1230px;
+  }
+  .offset11 {
+    margin-left: 1130px;
+  }
+  .offset10 {
+    margin-left: 1030px;
+  }
+  .offset9 {
+    margin-left: 930px;
+  }
+  .offset8 {
+    margin-left: 830px;
+  }
+  .offset7 {
+    margin-left: 730px;
+  }
+  .offset6 {
+    margin-left: 630px;
+  }
+  .offset5 {
+    margin-left: 530px;
+  }
+  .offset4 {
+    margin-left: 430px;
+  }
+  .offset3 {
+    margin-left: 330px;
+  }
+  .offset2 {
+    margin-left: 230px;
+  }
+  .offset1 {
+    margin-left: 130px;
+  }
+  /* Portfolio */
+  .portfolio #gallery .item_image img {
+    width: 272px;
+  }
+  .gallery_fix .item {
+    width: 272px;
+  }
+  /* About us*/
+  .about_us #wrap_main {
+    margin-top: 85px;
+  }
+}
+</style>
+
+
+        <script data-cfasync="false" type="text/javascript">
+            function preventBack() { window.history.forward(); }
+            setTimeout("preventBack()", 0);
+            window.onunload = function () { null };
+</script>
+
+<script data-cfasync="false" type="text/javascript">
+//for dynamic matrix image upload column question
+    function uploadError(sender, args) {
+        // addToClientTable(args.get_fileName(), "<span style='color:red;'>" + args.get_errorMessage() + "</span>");
+        alert(args.get_fileName() + " upload failed with error: " + args.get_errorMessage());
+    }
+    function uploadComplete(sender, args) {
+        //set hidden field to true so can validate client side for required file uploads.
+         alert(args.get_fileName() + " uploaded successfully.");
+       
+         //alert(sender.get_id());
+         //returns ct102_ct123
+         
+         //alert(sender.get_element().getAttribute("assocSurveyItemID"));
+        //returns "AsyncFileUploadQID12223||SID123||AID123"
+        
+            var hdnFieldUpdate = sender.get_element().getAttribute("assocSurveyItemID");
+            var hdnField2 = hdnFieldUpdate.replace("AsyncFileUpload", "DynMatrixFileValidation");
+            if(document.getElementById(hdnField2) != null)
+            {
+                document.getElementById(hdnField2).value = args.get_fileName();
+            }
+       
+         //alert("value: " + document.getElementById(hdnField2).value);
+    }
+    </script>
+
+        <script data-cfasync="false" type="text/javascript" src="./TakeSurvey_files/wz_tooltip.js.download"></script>
+               <script data-cfasync="false" type="text/javascript" src="./TakeSurvey_files/tip_balloon.js.download"></script>
+         <script data-cfasync="false" type="text/javascript" src="./TakeSurvey_files/tip_followscroll.js.download"></script>
+          <script data-cfasync="false" type="text/javascript" src="./TakeSurvey_files/tip_centerwindow.js.download"></script>
+
+
+  
+
+		<form name="frmSurvey" method="post" action="https://28.selectsurvey.net/dow/TakeSurveyAction.aspx" id="frmSurvey" autocomplete="off">
+<div>
+<input type="hidden" name="ScriptManager1_HiddenField" id="ScriptManager1_HiddenField" value="">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="nEtIDPhZD1zNVRPcPRTWXCoAOCafEMn3U/4S5V/zc1kr9+BLJEMfQcz578upY0X6qwZELzRq9GTFOVrXUgH8uJdlmfefl6smnSTywj8jScYVkJY7iLvn+TQuEtjKI0rFR0Y3ba8co/9a+DrAkrOl+suZ8LGeoRel8kLgq8IsxwVUDFWY+cRT+301CSSTzk1CaMRauu2241IsAK4Bkyo1XdIvKozvUJRNb5gYXcITjyQbq3dqPaV4e88CLOzXmDF7FcE+Ht2rpJ0j1v4C1HtQQZo3KUDsXZ+ihHAEfI6GRu5IyjgO605Q1zWeJvlU//B2HIsrusK8ZNqZuP0L1fq5X6YImk65kwSd8Y3B+A9EsG9G6EYbTHr3CdZUysMcr6HvcnD41HE/TzIkG5UGD6GMz2X55z13CxHGmUUrDOZ3d657sGvUgdLH71jDKTrl2r832BjmUmciGfYJzQfrEzTcHtxC63PzYLnRGcPiV3lKBKfihx4jtZMgfajuUSmHBicJ5YF9TnqlLmU1G4RatnqXzyzEeFD8ECr7bwiWKH3K6ImhLawPQupKbFLCU4K3qMQQL8av5LpBYO7THQRwcZeo1w==">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['frmSurvey'];
+if (!theForm) {
+    theForm = document.frmSurvey;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="./TakeSurvey_files/WebResource.axd" type="text/javascript"></script>
+
+
+<script src="./TakeSurvey_files/ScriptResource.axd" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="./TakeSurvey_files/ScriptResource(1).axd" type="text/javascript"></script>
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="7572B8A6">
+</div>
+
+          <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ScriptManager1', 'frmSurvey', [], [], [], 90, '');
+//]]>
+</script>
+
+            <div ng-controller="AppCtrl" class="sliderdemoBasicUsage" ng-app="MyApp">
+		<input type="hidden" name="cookieexists" value="true">	
+			<!--start of outer template align table -->
+			<table class="SurveyAlignmentStyle" align="center">
+				<tbody><tr class="SurveyAlignmentRowStyle">
+					<td>
+					<!--templateHTMLTopBlock -->
+			
+						<!--start of survey title table-->
+						<table class="SurveyLogoBlockStyle" id="tblLogo" border="0" cellspacing="0" cellpadding="5" width="760" align="center">
+							<tbody><tr><td align="left"><img border="0" src="./TakeSurvey_files/Dow-Chemical-Company-logo-Transparent4.gif" alt="Survey logo" style="border: 0px;"></td></tr><tr><td align="right"><span class="SurveyName"><a name="skipnav" tabindex="1">#PullingOurWeight Volunteer</a></span></td></tr>
+						</tbody></table>
+                        
+                      
+						<!--end of survey title -->
+						<!--start of outlined table -->
+						<table class="SurveyBorder" border="0" cellspacing="0" cellpadding="0" width="760" align="center">
+							<tbody><tr>
+								<td>
+									<table class="SurveyColor" cellpadding="0" border="0" width="100%">
+										<tbody><tr>
+											<td>
+												<!--start of top page indicator table -->
+												<br><table class="SurveyOuterProgressBarTable" cellpadding="3" cellspacing="2" border="0" width="100%">
+													<tbody><tr>
+														
+														<td align="right" width="100%">
+														    <div id="divTimer" style="display:none">
+    														    <table class="SurveyTimerTable">
+        														    <tbody><tr>
+            														    <td align="right"><span class="Normal">Time Elapsed:</span></td>
+            														    <td><span class="Normal" id="idTimeElapsed">0</span><span class="Normal"> minutes</span></td>
+            														</tr>
+            														<tr>
+            														    <td align="right"><span class="Normal">Time Remaining:</span></td>
+            														    <td><span class="Normal" id="idTimeRemaining">0</span><span class="Normal"> minutes</span></td>
+            														</tr>
+            														<tr>
+            														    <td align="right"><span class="Normal">Total Time:</span></td>
+            														    <td><span class="Normal" id="idTimeTotal">0</span><span class="Normal"> minutes</span></td>
+            														</tr>
+    														    </tbody></table>
+														    </div>
+                                                               <div id="divLoginCode" style="display:none">
+                                                               <table class="LoginCodeTable">
+                                                                    <tbody><tr>
+            														    <td align="right"><span class="NormalBold">Anonymous Login Code:  </span><span style="font-family:&#39;Courier&#39;;font-size:x-large"> </span>  <span class="NormalBold"><a href="https://28.selectsurvey.net/dow/TakeSurvey.aspx?SurveyID=78K3n643H">Code Entry Page</a></span>
+                                                                            <!--<a href="mailto:you@classapps.com?subject=Survey%20Update%20Code&body=To%20update%20the%20survey%20later%20click%20this%20link%20and%20enter%20this%20anonymous%20code:%20">Email</a> -->
+                                                                            <br>
+                                                                            <span class="InlineHelpSpanStyle">Save this code which is required to update your response at a later time.
+            														        </span>
+            														    </td>
+            														</tr>
+                                                                    <tr>
+            														    <td></td>
+            														</tr>
+                                                                    </tbody></table> 
+                                                               </div>
+														</td>
+														
+														<td width="48">&nbsp;</td>
+														
+														<td align="right" valign="top">
+															<table class="SurveyProgressBarTextTable" width="100" border="0" cellspacing="0" cellpadding="2">
+																<tbody><tr>
+																	<td align="center" colspan="2">
+																		<span class="Normal">
+																			<span class="PageNumberFontStyle">Page 1 of 1</span>
+																		</span>
+																	</td>
+																</tr>
+															</tbody></table>
+															<table class="SurveyProgressBarTable" width="100" border="0" cellspacing="0" cellpadding="1">
+																<tbody><tr>
+																	<td bgcolor="black"><table width="100" border="0" cellspacing="0" cellpadding="0" height="12"><tbody><tr><td class="ProgressFirstColor" width="100"></td><td class="ProgressSecondColor" width="0"></td></tr></tbody></table></td>
+																</tr>
+															</tbody></table>
+														</td>
+														<td width="14">&nbsp;</td>
+													</tr>
+													
+													<!-- R2L - adding literal control to show preview text -->
+                                                    
+													
+													
+													
+												<!--</table>-->
+												<!--stop of top page indicator table -->
+												
+												<!--start of question holder table -->
+												</tbody></table><table class="QuestionHolderTable" cellpadding="2" cellspacing="0" border="0" width="100%">
+													<tbody><tr>
+														<td width="5">&nbsp;</td>
+														<td valign="top">
+															<!--insert QuestionTableHTML.txt -->
+															<div id="PanelQuestionHolder">
+	<div id="ctl04_hideshow_269024">
+		<table id="ctl04_OpenEndedDate" class="OpenEndedDateTable" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269024"> <span class="PageNumberFontStyle">1.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269024">Cleanup date:</label><span class="Required">*</span><br></span><span class="InlineHelpSpanStyle">mm/dd/yyyy</span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><input type="text" value="" class="date-pick dp-applied" maxlength="" style="width:150px" name="QID269024" id="QID269024"><a href="https://28.selectsurvey.net/dow/TakeSurvey.aspx?SurveyID=78K3n643H#" class="dp-choose-date" title="Choose date">Choose date</a></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl05_hideshow_269026">
+		<table id="ctl05_OpenEndedOneLine" class="OpenEndedOneLineTable" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269026"> <span class="PageNumberFontStyle">2.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269026">Cleanup location:</label><span class="Required">*</span><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><input type="text" value="" maxlength="150" style="width:675px" name="QID269026" id="QID269026"></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl06_hideshow_269028">
+		<table id="ctl06_SingleSelectOptionButtons" class="SingleSelectOptionButtonsTable" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269028"> <span class="PageNumberFontStyle">3.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269028">I am a:</label><span class="Required">*</span><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><table cellspacing="0" cellpadding="0"><tbody><tr><td valign="top"><input type="radio" value="1187026" name="QID269028" id="1187026" class="qc_trigger item_269028" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187026">Dow employee</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187027" name="QID269028" id="1187027" class="qc_trigger item_269028" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187027">Dow contractor</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187028" name="QID269028" id="1187028" class="qc_trigger item_269028" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187028">Dow customer</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187029" name="QID269028" id="1187029" class="qc_trigger item_269028" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187029">Dow family member</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187030" name="QID269028" id="1187030" class="qc_trigger item_269028" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187030">Community partner or other stakeholder</label></span></td></tr></tbody></table><table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody><tr><td><input type="hidden" id="LoopQID269028" value="0"><input type="hidden" id="LoopConditionQID269028" value=""></td></tr></tbody></table></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl06_qcContainer" style="display:none" class="qc_269028">
+<table style="width:100%;" border="0" class="Normal">
+    
+   <tbody><tr><td></td><td>&nbsp;</td></tr>
+</tbody></table></div>
+<div id="ctl07_hideshow_269030">
+		<table id="ctl07_SingleSelectOptionButtons" class="SingleSelectOptionButtonsTable" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269030"> <span class="PageNumberFontStyle">4.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269030">How satisfied were you with this event?</label><span class="Required">*</span><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><table cellspacing="0" cellpadding="0"><tbody><tr><td valign="top"><input type="radio" value="1187031" name="QID269030" id="1187031" class="qc_trigger item_269030" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187031">Very satisfied</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187032" name="QID269030" id="1187032" class="qc_trigger item_269030" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187032">Somewhat satisfied</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187033" name="QID269030" id="1187033" class="qc_trigger item_269030" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187033">Neither satisfied nor dissatisfied</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187034" name="QID269030" id="1187034" class="qc_trigger item_269030" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187034">Somewhat dissatisfied</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187035" name="QID269030" id="1187035" class="qc_trigger item_269030" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187035">Very dissatisfied</label></span></td></tr></tbody></table><table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody><tr><td><input type="hidden" id="LoopQID269030" value="0"><input type="hidden" id="LoopConditionQID269030" value=""></td></tr></tbody></table></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl07_qcContainer" style="display:none" class="qc_269030">
+<table style="width:100%;" border="0" class="Normal">
+    
+   <tbody><tr><td></td><td>&nbsp;</td></tr>
+</tbody></table></div>
+<div id="ctl08_hideshow_269032">
+		<table id="ctl08_SingleSelectOptionButtons" class="SingleSelectOptionButtonsTable" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269032"> <span class="PageNumberFontStyle">5.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269032">How well-organized was this event?</label><span class="Required">*</span><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><table cellspacing="0" cellpadding="0"><tbody><tr><td valign="top"><input type="radio" value="1187036" name="QID269032" id="1187036" class="qc_trigger item_269032" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187036">Very organized</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187037" name="QID269032" id="1187037" class="qc_trigger item_269032" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187037">Somewhat organized</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187038" name="QID269032" id="1187038" class="qc_trigger item_269032" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187038">Neither organized nor disorganized</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187039" name="QID269032" id="1187039" class="qc_trigger item_269032" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187039">Somewhat disorganized</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187040" name="QID269032" id="1187040" class="qc_trigger item_269032" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187040">Very disorganized</label></span></td></tr></tbody></table><table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody><tr><td><input type="hidden" id="LoopQID269032" value="0"><input type="hidden" id="LoopConditionQID269032" value=""></td></tr></tbody></table></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl08_qcContainer" style="display:none" class="qc_269032">
+<table style="width:100%;" border="0" class="Normal">
+    
+   <tbody><tr><td></td><td>&nbsp;</td></tr>
+</tbody></table></div>
+<div id="ctl09_hideshow_269034">
+		<table id="ctl09_SingleSelectOptionButtons" class="SingleSelectOptionButtonsTable" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269034"> <span class="PageNumberFontStyle">6.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269034">How well-prepared were you for this event?</label><span class="Required">*</span><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><table cellspacing="0" cellpadding="0"><tbody><tr><td valign="top"><input type="radio" value="1187041" name="QID269034" id="1187041" class="qc_trigger item_269034" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187041">Very prepared</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187042" name="QID269034" id="1187042" class="qc_trigger item_269034" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187042">Somewhat prepared</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187043" name="QID269034" id="1187043" class="qc_trigger item_269034" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187043">Neither prepared nor unprepared</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187044" name="QID269034" id="1187044" class="qc_trigger item_269034" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187044">Somewhat unprepared</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187045" name="QID269034" id="1187045" class="qc_trigger item_269034" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187045">Very unprepared</label></span></td></tr></tbody></table><table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody><tr><td><input type="hidden" id="LoopQID269034" value="0"><input type="hidden" id="LoopConditionQID269034" value=""></td></tr></tbody></table></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl09_qcContainer" style="display:none" class="qc_269034">
+<table style="width:100%;" border="0" class="Normal">
+    
+   <tbody><tr><td></td><td>&nbsp;</td></tr>
+</tbody></table></div>
+<div id="ctl10_hideshow_269036">
+		<table id="ctl10_SingleSelectOptionButtons" class="SingleSelectOptionButtonsTable" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269036"> <span class="PageNumberFontStyle">7.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269036">How important was this event to your job satisfaction?</label><span class="Required">*</span><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><table cellspacing="0" cellpadding="0"><tbody><tr><td valign="top"><input type="radio" value="1187046" name="QID269036" id="1187046" class="qc_trigger item_269036" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187046">Very important</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187047" name="QID269036" id="1187047" class="qc_trigger item_269036" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187047">Somewhat important</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187048" name="QID269036" id="1187048" class="qc_trigger item_269036" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187048">Neither important nor unimportant</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187049" name="QID269036" id="1187049" class="qc_trigger item_269036" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187049">Somewhat unimportant</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187050" name="QID269036" id="1187050" class="qc_trigger item_269036" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187050">Very unimportant</label></span></td></tr></tbody></table><table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody><tr><td><input type="hidden" id="LoopQID269036" value="0"><input type="hidden" id="LoopConditionQID269036" value=""></td></tr></tbody></table></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl10_qcContainer" style="display:none" class="qc_269036">
+<table style="width:100%;" border="0" class="Normal">
+    
+   <tbody><tr><td></td><td>&nbsp;</td></tr>
+</tbody></table></div>
+<div id="ctl11_hideshow_269038">
+		<table id="ctl11_SingleSelectOptionButtons" class="SingleSelectOptionButtonsTable" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269038"> <span class="PageNumberFontStyle">8.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269038">How supportive was your leader of your involvement?</label><span class="Required">*</span><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><table cellspacing="0" cellpadding="0"><tbody><tr><td valign="top"><input type="radio" value="1187051" name="QID269038" id="1187051" class="qc_trigger item_269038" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187051">Very supportive</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187052" name="QID269038" id="1187052" class="qc_trigger item_269038" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187052">Somewhat supportive</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187053" name="QID269038" id="1187053" class="qc_trigger item_269038" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187053">Neither supportive nor unsupportive</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187054" name="QID269038" id="1187054" class="qc_trigger item_269038" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187054">Somewhat unsupportive</label></span></td></tr><tr><td valign="top"><input type="radio" value="1187055" name="QID269038" id="1187055" class="qc_trigger item_269038" turnoffquestioncondition="yes"></td><td><span class="Normal"><label for="1187055">Very unsupportive</label></span></td></tr></tbody></table><table border="0" cellspacing="0" cellpadding="0" width="100%"><tbody><tr><td><input type="hidden" id="LoopQID269038" value="0"><input type="hidden" id="LoopConditionQID269038" value=""></td></tr></tbody></table></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl11_qcContainer" style="display:none" class="qc_269038">
+<table style="width:100%;" border="0" class="Normal">
+    
+   <tbody><tr><td></td><td>&nbsp;</td></tr>
+</tbody></table></div>
+<div id="ctl12_hideshow_269040">
+		<table id="ctl12_MatrixSingleSelectOptions" class="MatrixSingleSelectOptions" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269040"> <span class="PageNumberFontStyle">9.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269040"><strong>Personal Development</strong></label><span class="Required">*</span><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><table cellspacing="0" cellpadding="2" border="0" width="100%" class="MatrixSingleSelectOptions"><tbody><tr><td bgcolor="#cacddb">&nbsp;</td><th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Exceptional" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690401">Exceptional</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Excellent" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690402">Excellent</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Good" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690403">Good</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Fair" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690404">Fair</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Poor" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690405">Poor</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Very poor" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690406">Very poor</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Not applicable" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690407">Not applicable</label></span></th>
+<th bgcolor="#cacddb"></th></tr><tr><td bgcolor="#ffffff" width="250" align="left" valign="center"><span class="Normal">Rate the leadership skills you gained</span></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Exceptional" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187056" id="Answer2690401" name="QID269040||SIID169118" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Excellent" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187057" id="Answer2690402" name="QID269040||SIID169118" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Good" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187058" id="Answer2690403" name="QID269040||SIID169118" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Fair" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187059" id="Answer2690404" name="QID269040||SIID169118" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Poor" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187060" id="Answer2690405" name="QID269040||SIID169118" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Very poor" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187061" id="Answer2690406" name="QID269040||SIID169118" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Not applicable" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187069" id="Answer2690407" name="QID269040||SIID169118" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" align="right" valign="center"><span class="Normal"></span></td></tr><tr><td bgcolor="#f1f2f7" width="250" align="left" valign="center"><span class="Normal">Rate the subject knowledge you gained</span></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Exceptional" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187056" id="Answer2690401" name="QID269040||SIID169119" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Excellent" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187057" id="Answer2690402" name="QID269040||SIID169119" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Good" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187058" id="Answer2690403" name="QID269040||SIID169119" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Fair" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187059" id="Answer2690404" name="QID269040||SIID169119" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Poor" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187060" id="Answer2690405" name="QID269040||SIID169119" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Very poor" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187061" id="Answer2690406" name="QID269040||SIID169119" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Not applicable" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187069" id="Answer2690407" name="QID269040||SIID169119" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" align="right" valign="center"><span class="Normal"></span></td></tr><tr><td bgcolor="#ffffff" width="250" align="left" valign="center"><span class="Normal">Rate how empowered you feel to take additional #PullingOurWeight actions</span></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Exceptional" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187056" id="Answer2690401" name="QID269040||SIID169120" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Excellent" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187057" id="Answer2690402" name="QID269040||SIID169120" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Good" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187058" id="Answer2690403" name="QID269040||SIID169120" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Fair" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187059" id="Answer2690404" name="QID269040||SIID169120" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Poor" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187060" id="Answer2690405" name="QID269040||SIID169120" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Very poor" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187061" id="Answer2690406" name="QID269040||SIID169120" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Not applicable" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187069" id="Answer2690407" name="QID269040||SIID169120" class="qc_trigger item_269040" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" align="right" valign="center"><span class="Normal"></span></td></tr></tbody></table></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl12_qcContainer" style="display:none" class="qc_269040">
+<table style="width:100%;" border="0" class="Normal">
+    
+   <tbody><tr><td></td><td>&nbsp;</td></tr>
+</tbody></table></div><div id="ctl13_hideshow_269042">
+		<table id="ctl13_MatrixSingleSelectOptions" class="MatrixSingleSelectOptions" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269042"> <span class="PageNumberFontStyle">10.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269042"><strong>Stakeholder Engagement</strong></label><span class="Required">*</span><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><table cellspacing="0" cellpadding="2" border="0" width="100%" class="MatrixSingleSelectOptions"><tbody><tr><td bgcolor="#cacddb">&nbsp;</td><th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Exceptional" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690421">Exceptional</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Excellent" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690422">Excellent</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Good" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690423">Good</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Fair" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690424">Fair</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Poor" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690425">Poor</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Very poor" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690426">Very poor</label></span></th>
+<th bgcolor="#cacddb" width="100">&nbsp;</th><th id="Not applicable" bgcolor="#cacddb" align="center" valign="center"><span class="SurveyMatrixHeadingRowText"><label for="Answer2690427">Not applicable</label></span></th>
+<th bgcolor="#cacddb"></th></tr><tr><td bgcolor="#ffffff" width="250" align="left" valign="center"><span class="Normal">Rate the relationships developed with Dow colleagues</span></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Exceptional" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187062" id="Answer2690421" name="QID269042||SIID169121" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Excellent" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187063" id="Answer2690422" name="QID269042||SIID169121" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Good" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187064" id="Answer2690423" name="QID269042||SIID169121" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Fair" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187065" id="Answer2690424" name="QID269042||SIID169121" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Poor" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187066" id="Answer2690425" name="QID269042||SIID169121" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Very poor" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187067" id="Answer2690426" name="QID269042||SIID169121" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Not applicable" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187068" id="Answer2690427" name="QID269042||SIID169121" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" align="right" valign="center"><span class="Normal"></span></td></tr><tr><td bgcolor="#f1f2f7" width="250" align="left" valign="center"><span class="Normal">Rate the relationships developed with members of the community</span></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Exceptional" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187062" id="Answer2690421" name="QID269042||SIID169122" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Excellent" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187063" id="Answer2690422" name="QID269042||SIID169122" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Good" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187064" id="Answer2690423" name="QID269042||SIID169122" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Fair" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187065" id="Answer2690424" name="QID269042||SIID169122" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Poor" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187066" id="Answer2690425" name="QID269042||SIID169122" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Very poor" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187067" id="Answer2690426" name="QID269042||SIID169122" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Not applicable" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187068" id="Answer2690427" name="QID269042||SIID169122" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" align="right" valign="center"><span class="Normal"></span></td></tr><tr><td bgcolor="#ffffff" width="250" align="left" valign="center"><span class="Normal">Rate the bonds developed with members of your family</span></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Exceptional" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187062" id="Answer2690421" name="QID269042||SIID169123" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Excellent" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187063" id="Answer2690422" name="QID269042||SIID169123" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Good" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187064" id="Answer2690423" name="QID269042||SIID169123" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Fair" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187065" id="Answer2690424" name="QID269042||SIID169123" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Poor" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187066" id="Answer2690425" name="QID269042||SIID169123" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Very poor" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187067" id="Answer2690426" name="QID269042||SIID169123" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" width="5">&nbsp;</td>
+<td axis="Not applicable" bgcolor="#ffffff" width="100" align="center" valign="center"><input type="radio" value="1187068" id="Answer2690427" name="QID269042||SIID169123" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#ffffff" align="right" valign="center"><span class="Normal"></span></td></tr><tr><td bgcolor="#f1f2f7" width="250" align="left" valign="center"><span class="Normal">Rate the relationships developed with customers</span></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Exceptional" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187062" id="Answer2690421" name="QID269042||SIID169124" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Excellent" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187063" id="Answer2690422" name="QID269042||SIID169124" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Good" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187064" id="Answer2690423" name="QID269042||SIID169124" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Fair" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187065" id="Answer2690424" name="QID269042||SIID169124" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Poor" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187066" id="Answer2690425" name="QID269042||SIID169124" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Very poor" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187067" id="Answer2690426" name="QID269042||SIID169124" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" width="5">&nbsp;</td>
+<td axis="Not applicable" bgcolor="#f1f2f7" width="100" align="center" valign="center"><input type="radio" value="1187068" id="Answer2690427" name="QID269042||SIID169124" class="qc_trigger item_269042" turnoffquestioncondition="yes"></td>
+<td bgcolor="#f1f2f7" align="right" valign="center"><span class="Normal"></span></td></tr></tbody></table></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+<div id="ctl13_qcContainer" style="display:none" class="qc_269042">
+<table style="width:100%;" border="0" class="Normal">
+    
+   <tbody><tr><td></td><td>&nbsp;</td></tr>
+</tbody></table></div><div id="ctl14_hideshow_269044">
+		<table id="ctl14_OpenEndedCommentsBox" class="OpenEndedCommentsBoxTable" cellspacing="0" cellpadding="2" width="100%">
+			<tbody><tr valign="top">
+				<td width="21">	<a name="ItemID269044"> <span class="PageNumberFontStyle">11.	<br></span></a></td>
+				<td><span class="Normal"><label for="QID269044">Additional comments:</label><br></span></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td><textarea style="width:675px" rows="5" name="QID269044" id="QID269044"></textarea><input type="hidden" id="LoopQID269044" value="0"><input type="hidden" id="LoopConditionQID269044" value=""></td>
+			</tr>
+			<tr>
+				<td width="21">&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+
+</div>
+														</td>
+														<td width="5">&nbsp;</td>
+													</tr>
+													
+												</tbody></table>
+												<!--end of question holder table -->
+												<!--insert NavTableHTML.txt -->
+												<table border="0" cellpadding="3" cellspacing="3" width="100%"><tbody><tr><td width="25">&nbsp;</td><td align="center"><a id="btnDone" onclick="this.style.display=&#39;none&#39;" title="Done" class="button" href="javascript:submitCheck(1);">Done</a>&nbsp;&nbsp;</td><td width="5">&nbsp;</td></tr></tbody></table>
+											</td>
+										</tr>
+									</tbody></table>
+                              
+								</td>
+							</tr>
+						</tbody></table>
+						<!--end of outlined table -->
+						<!--templateHTMLBottomBlock -->
+						
+					</td>
+				</tr>
+			</tbody></table>
+			<!--end of outer template align table -->
+			
+			<!--start of hidden fields -->
+            <input type="hidden" id="isFormDirty" name="isFormDirty" value="no">
+			
+<input type="hidden" value="No" name="AdminOrOwnerEditResponse">
+<input type="hidden" value="938271" name="AdminOrOwnerResponseID">
+<input type="hidden" value="78K3n643H" name="SurveyID">
+<input type="hidden" value="0" name="EmailAddressID">
+<input type="hidden" value="0" name="EmailMessageID">
+<input type="hidden" value="" name="EID">
+<input type="hidden" value="A" name="ResponseType">
+<input type="hidden" value="6" name="RespondentAccessLevel">
+<input type="hidden" value="" name="SurveyComplete">
+<input type="hidden" value="0" name="DoneClicked">
+<input type="hidden" value="" name="ItemIDValues">
+<input type="hidden" value="SurveyID=78K3n643H" name="PostedQueryString">
+<input type="hidden" value="SurveyID=78K3n643H" name="FirstPageQueryString">
+<input type="hidden" value="1" name="DisplayPageNumber">
+<input type="hidden" value="8/7/2019 2:45:15 AM" name="ResponseStartDate">
+<input type="hidden" value="1" name="ActualPageNumber">
+<input type="hidden" value="false" name="hdnUpdatingSurvey">
+
+<input type="hidden" value="false" name="hdnMultipleUpdateableSurvey">
+
+<input type="hidden" value="false" name="hdnIsUpdateable">
+<input type="hidden" value="938271" name="ResponseID">
+<input type="hidden" value="12" name="QuestionNumber">
+<input type="hidden" value="1" name="prevQN">
+<input type="hidden" value="0" name="buttonclicked" id="buttonclicked">
+<input type="hidden" value="False" name="save" id="save">
+<input type="hidden" value="," name="SP">
+<input type="hidden" value="6" name="AL">
+<input type="hidden" value="" name="hideQuestions">
+<input type="hidden" value="" name="hdnCustomParamaters">
+<input type="hidden" value="1" name="hdnPreviousJSPageNumber" id="hdnPreviousJSPageNumber">
+
+			<!--end of hidden fields -->
+                </div> 
+    
+
+		
+
+<script type="text/javascript">
+//<![CDATA[
+(function() {var fn = function() {$get('ScriptManager1_HiddenField').value = '';Sys.Application.remove_init(fn);};Sys.Application.add_init(fn);})();//]]>
+</script>
+</form>
+           <!--digital signature -->
+        <script data-cfasync="false" type="text/javascript" src="./TakeSurvey_files/json2.min.js.download"></script>
+<link rel="stylesheet" href="./TakeSurvey_files/jquery.signaturepad.css">
+  <script data-cfasync="false" type="text/javascript">
+      $(document).ready(function () {
+          $('.sigPad').signaturePad({ drawOnly: true, lineTop: 'transparent' });
+      });
+  </script>
+        <!--end digital signature -->
+	
+
+  <script data-cfasync="false" type="text/javascript">      //<![CDATA[
+ var jsStrLoopCondition = '';
+		    if(jsStrLoopCondition == '')
+		    {
+		        var addconflict = document.getElementById("addconflict");
+		        if(addconflict)
+		        {
+		           // addconflict.style.display="block";
+		            addconflict.style.display="inline";
+		        }
+		        var saveConflict = document.getElementById("saveConflict");
+		        if(saveConflict)
+		        {
+		            saveConflict.style.display="none";
+		            saveConflict.style.visibility = "hidden";
+		        }
+
+		    }
+		    if(jsStrLoopCondition == 'EU')
+		    {
+		        var addconflict = document.getElementById("addconflict");
+		        if(addconflict)
+		        {
+		           // addconflict.style.display="block";
+		            addconflict.style.display="inline";
+		        }
+		        var saveConflict = document.getElementById("saveConflict");
+		        if(saveConflict)
+		        {
+		            saveConflict.style.display="none";
+		        }
+		    }
+		    if(jsStrLoopCondition == 'E')
+		    {
+		        var addconflict = document.getElementById("addconflict");
+		        if(addconflict)
+		        {
+		            addconflict.style.display="none";
+		        }
+		        var saveConflict = document.getElementById("saveConflict");
+		        if(saveConflict)
+		        {
+		            //saveConflict.style.display="block";
+		            saveConflict.style.display="inline";
+		        }
+		    }
+		    if(jsStrLoopCondition == 'A')
+		    {
+		        var addconflict = document.getElementById("addconflict");
+		        if(addconflict)
+		        {
+		           // addconflict.style.display="block";
+		            addconflict.style.display="inline";
+		        }
+		        var saveConflict = document.getElementById("saveConflict");
+		        if(saveConflict)
+		        {
+		            saveConflict.style.display="none";
+		        }
+		    }
+		    if(jsStrLoopCondition == 'D')
+		    {
+		        var addconflict = document.getElementById("addconflict");
+		        if(addconflict)
+		        {
+		            //addconflict.style.display="block";
+		            addconflict.style.display="inline";
+		        }
+		        var saveConflict = document.getElementById("saveConflict");
+		        if(saveConflict)
+		        {
+		            saveConflict.style.display="none";
+		        }
+		    }
+      //]]> 
+      </script></body></html>
