@@ -39,14 +39,20 @@
 
         </div>
 
-        <div class="alert alert-primary" role="alert">
-            Thanks for your coordination!
-            <br>
-            Open this page in Safari or other built-in browsers to save certification!
-            Please type in your <strong>name</strong> and upload your <strong>identification photo</strong> to get your
-            Digital Certificate!
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>            Thanks for your coordination!</strong>
+            <br>You can't save certification image if you open this page in WeChat. Please open it in Safari or other
+            browsers.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
 
+        <div class="alert alert-primary" role="alert">
+            Please type in your <strong>name</strong> and upload your <strong>identification photo</strong> to get your
+            Digital Certification!
+            <br>
+        </div>
 
         <form method="post" action="{{url_for('cert')}}" enctype="multipart/form-data">
 
@@ -55,18 +61,24 @@
             {{form.yourname(class='form-control',placeholder='Name')}}
             {{render_errors(form.yourname)}}
 
+
             <div class="custom-file">
                 {{form.yourphoto( class="custom-file-input")}}
                 <label class="custom-file-label" for="yourphoto">Choose photo</label>
             </div>
 
-            {{render_errors(form.yourphoto)}}
 
+            {{render_errors(form.yourphoto)}}
             {{form.submit(class="btn btn-primary")}}
 
 
         </form>
+        <br>
+
+
+
     </div>
+
 
 </div>
 
