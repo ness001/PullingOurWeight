@@ -179,7 +179,7 @@ def gen_meme(words):
         basedir + "/static/IMG_8223.jpg")  # need to be edited on server
     draw = ImageDraw.Draw(background)
     myfont = ImageFont.truetype(basedir + "/static/PingFang.ttc", #you should not use right click copy path on pycharm since it wont include /
-                                size=50)  # font type need to be double-checked
+                                size=40)  # font type need to be double-checked
     text = words  # name length should take into consideration
 
     # location of text
