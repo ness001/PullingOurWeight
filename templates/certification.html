@@ -40,7 +40,7 @@
         </div>
 
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>            Thanks for your coordination!</strong>
+            <strong> Thanks for your coordination!</strong>
             <br>You can't save certification image if you open this page in WeChat. Please open it in Safari or other
             browsers.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -63,8 +63,8 @@
 
 
             <div class="custom-file">
-                {{form.yourphoto( class="custom-file-input")}}
-                <label class="custom-file-label" for="yourphoto">Choose photo</label>
+                {{form.yourphoto( class="custom-file-input",oninput="photo_name();")}}
+                <label class="custom-file-label" for="yourphoto" id="photo_label">Choose photo</label>
             </div>
 
 
@@ -76,12 +76,19 @@
         <br>
 
 
-
     </div>
 
 
 </div>
 
+<script>
+    var photo=document.getElementById('yourphoto');
+    var photo_label=document.getElementById('photo_label');
+    function photo_name(){
+        photo_label.innerText=photo.files[0].name
+    }
+
+</script>
 
 </body>
 
