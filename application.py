@@ -31,29 +31,41 @@ class certform(FlaskForm):
                                                    FileAllowed(photos, 'Images only!')])
     submit = SubmitField()
 
+def add_corners(im, rad):
+    circle = Image.new('L', (rad * 2, rad * 2), 0)
+    draw = ImageDraw.Draw(circle)
+    draw.ellipse((0, 0, rad * 2, rad * 2), fill=255)
+    alpha = Image.new('L', im.size, 255)
+    w, h = im.size
+    alpha.paste(circle.crop((0, 0, rad, rad)), (0, 0))
+    alpha.paste(circle.crop((0, rad, rad, rad * 2)), (0, h - rad))
+    alpha.paste(circle.crop((rad, 0, rad * 2, rad)), (w - rad, 0))
+    alpha.paste(circle.crop((rad, rad, rad * 2, rad * 2)), (w - rad, h - rad))
+    im.putalpha(alpha)
+    return im
 
 def generate_cert(name, photo_path):
     background = Image.open(
-        basedir + "/static/image001.png")  # need to be edited on server
+        basedir + "/static/template.jpeg")  # need to be edited on server
     portrait = Image.open(photo_path)
     draw = ImageDraw.Draw(background)
     myfont = ImageFont.truetype(basedir + "/static/PingFang.ttc",
-                                size=20)  # font type need to be double-checked
+                                size=56)  # font type need to be double-checked
     fillcolor = 'black'
     text = name  # name length should take into consideration
 
     # location of text
     w, h = draw.textsize(text, font=myfont)
-    bounding_box = [248, 370, 374, 396]  # upper left corner, lowwr right corner
+    bounding_box = [1437, 334, 1693, 401]  # upper left corner, lowwr right corner
     x1, y1, x2, y2 = bounding_box
     x = (x2 - x1 - w) / 2 + x1
     y = (y2 - y1 - h) / 2 + y1
 
     # add text
-    draw.text((x, y), text, align='center', font=myfont, fill='black')
+    draw.text((x, y), text, align='center', font=myfont, fill='#193f5e')
 
     # location of portrait
-    box = (474, 279, 573, 406)  # different image size should take into consideration
+    box = (227, 256, 698, 858)  # different image size should take into consideration
     # portrait.thumbnail((box[2] - box[0], box[3] - box[1]))
     portrait = portrait.resize((box[2] - box[0], box[3] - box[1]))
     # portrait = portrait.crop(box)
@@ -160,8 +172,6 @@ def survey():
         #     file.close()
         # flash(json.dumps(data, default=str))
         # flash(data)
-
-
         return redirect(url_for('cert'))
     return render_template('survey2019.html', form=sform)
 
@@ -179,7 +189,7 @@ def gen_meme(words):
         basedir + "/static/IMG_8223.jpg")  # need to be edited on server
     draw = ImageDraw.Draw(background)
     myfont = ImageFont.truetype(basedir + "/static/PingFang.ttc", #you should not use right click copy path on pycharm since it wont include /
-                                size=40)  # font type need to be double-checked
+                                size=36)  # font type need to be double-checked
     text = words  # name length should take into consideration
 
     # location of text
