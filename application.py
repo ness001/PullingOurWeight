@@ -87,6 +87,12 @@ def show_img(input_image):
     return send_file(img_io, mimetype='image/png')
 
 
+@app.route('/cert/<username>/<cert_name>')
+def user_cert(username,cert_name):
+    return render_template('yourcert.html', name=username+ '\'s ' + 'certification',
+                           img_path='/static/cert/' + cert_name + 'png')
+
+
 @app.route('/cert', methods=['get', 'post'])
 def cert():
     yourinfo = certform()
@@ -100,7 +106,8 @@ def cert():
         # return show_img(pic)
         # return render_template('/photos/<filename>',filename=filename)
         # return send_from_directory('cert', cert_name+'png')
-        return render_template('yourcert.html',name=yourname+'\'s '+'certification',img_path='/static/cert/'+cert_name+'png')
+        # return render_template('yourcert.html',name=yourname+'\'s '+'certification',img_path='/static/cert/'+cert_name+'png')
+        return redirect(url_for('user_cert',username=yourname,cert_name=cert_name,_external=True))
     return render_template('certification.html', form=yourinfo)
 
 
