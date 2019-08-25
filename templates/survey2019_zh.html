@@ -13,8 +13,8 @@
             font-size: 12px;
             width: 10px
         }
-        h5 {
-display: inline
+h5 {
+display:inline;
 }
 
 
@@ -26,40 +26,43 @@ display: inline
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script>
+function f1(){
+     document.a.background-color = "red";
+}    </script>
 </head>
 
 <body>
 <div class='pl-3 pr-3'>
     <div class="container">
         <br>
-        <h3 style='color: #415364'>2019#PullingOurWeight Campaign Survey  </h3>
+        <h3 style='color: #415364'>2019#PullingOurWeight Campaign
+            调查问卷 </h3>
         <div class="row">
             <div class="container">
                 <div class="col" style="background: #e80033;height: 10px;">
                 </div>
             </div>
         </div>
-  <h5>
+        <h5>
         <br><a href="/" class="badge badge-primary" onclick="f1()">English</a>
 <a href="/zh" class="badge badge-secondary">中文</a>
-            </h5>点击切换语言
+            </h5>Click to change language
     </div>
 
-
-
     <br>
-    <form method="post" action="{{url_for('survey')}}" enctype="multipart/form-data">
+    <form method="post" action="{{url_for('zh')}}" enctype="multipart/form-data">
                     {{form.csrf_token}}
 
         <div class="container">
 
 
-            <strong> 1. Cleanup date:</strong>
+            <strong> 1. 清理时间:</strong>
             {{form.date(class='form-control',placeholder='yyyy-mm-dd',type='date')}}
             {{render_errors(form.date)}}
 
 
-            <strong>2. I am a</strong>
+            <strong>2. 我是</strong>
 
             {% for subfield in form.identity %}
             <div>
@@ -73,7 +76,7 @@ display: inline
 
 
 
-            <strong>3. How satisfied were you with this event?</strong>
+            <strong>3. 您对这次活动有多满意？</strong>
             
             {% for subfield in form.satisfactory %}
             <div>
@@ -85,7 +88,7 @@ display: inline
             {% endfor %}
             {{render_errors(form.satisfactory)}}
 
-                    <strong>4. How well-organized was this event?</strong>
+                    <strong>4. 您觉得这次活动组织性如何？</strong>
            
             {% for subfield in form.organization %}
             <div>
@@ -99,7 +102,7 @@ display: inline
 
 
 
-            <strong>5. How well-prepared were you for this event?</strong>
+            <strong>5. 你对这次活动有多少准备？</strong>
             
              {% for subfield in form.preparation %}
             <div class="radio">
@@ -113,11 +116,11 @@ display: inline
             {{render_errors(form.preparation)}}
 
 
-            <strong>6. Stakeholder Engagement.</strong>
+            <strong>6. 利益相关者参与度。</strong>
     
             <div>
-                Rate the relationships developed with:
-                <li><label>Dow colleagues</label></li>
+                通过本次活动，我与他们的关系变得:
+                <li><label>陶氏同事</label></li>
                 {{form.colleague(class="browser-default custom-select")}}
             {{render_errors(form.colleague)}}
 
@@ -125,7 +128,7 @@ display: inline
             </div>
 
              <div>
-                <li><label>Community members</label></li>
+                <li><label>社区成员</label></li>
                 {{form.community(class="browser-default custom-select")}}
                             {{render_errors(form.community)}}
 
@@ -133,7 +136,7 @@ display: inline
 
 
              <div>
-                <li><label>Family members</label></li>
+                <li><label>家庭成员</label></li>
                 {{form.family(class="browser-default custom-select")}}
             {{render_errors(form.family)}}
 
@@ -141,12 +144,12 @@ display: inline
 
 
 <br>
-            <strong>7. Additional comments</strong>
+            <strong>7. 附加意见</strong>
             {{form.text(class='form-control',rows=3)}}
             <br>
 
 
-            {{form.submit(class="btn btn-primary")}}
+            {{form.submit(class="btn btn-primary",value='提交')}}
         </div>
     </form>
 </div>

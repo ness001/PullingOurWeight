@@ -2,7 +2,7 @@
 # Developing Duration: 2019/8/10 - 8/16
 
 
-from flask import Flask, render_template, request, redirect, url_for, send_file, request, flash
+from flask import Flask, render_template, request, redirect, url_for, send_file, request, flash,send_from_directory
 from flask_wtf import FlaskForm
 from wtforms import DateField, RadioField, TextAreaField, StringField, SubmitField, SelectField
 from wtforms.validators import InputRequired, Length, Optional
@@ -73,7 +73,10 @@ def generate_cert(name, photo_path):
 
     # add portrait
     background.paste(portrait, box)
-    return background
+    cert_name = ''.join(random.sample(string.ascii_letters + string.digits, 16)) + '.'
+    background.save(basedir+'/static/cert/'+cert_name+'png')
+
+    return cert_name
 
 
 # temporary save img as png file in IO and show img
@@ -91,11 +94,13 @@ def cert():
         yourname = yourinfo.yourname.data  # get inputted name
         ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 16)) + '.'
         filename = photos.save(yourinfo.yourphoto.data, name=ran_str)
-        pic = generate_cert(yourname, basedir + '/photos' + '/' + filename)
+        cert_name = generate_cert(yourname, basedir + '/photos' + '/' + filename)
         # pic.save(basedir+'/cert_generated/'+filename)
         # save certification in var pic
-        return show_img(pic)
-        # return
+        # return show_img(pic)
+        # return render_template('/photos/<filename>',filename=filename)
+        # return send_from_directory('cert', cert_name+'png')
+        return render_template('yourcert.html',name=yourname+'\'s '+'certification',img_path='/static/cert/'+cert_name+'png')
     return render_template('certification.html', form=yourinfo)
 
 
@@ -135,6 +140,42 @@ class surveyform(FlaskForm):
     submit = SubmitField()
 
 
+class survey_zh(FlaskForm):
+    date = DateField('Clean Up Date', validators=[InputRequired()])
+
+    identity = RadioField('identity', coerce=int,
+                          choices=[(1, '陶氏员工'), (2, '陶氏承包商'), (3, '陶氏顾客'),
+                                   (4, '陶氏家庭成员'), (5, '陶氏社区伙伴或利益相关者')],
+                          validators=[InputRequired()])
+    satisfactory = RadioField('satisfactory', coerce=int, choices=[
+        (2, '非常满意'), (1, '比较满意'), (0, '一般'),
+        (-1, '比较不满意'), (-2, '非常不满意')], validators=[InputRequired()])
+    organization = RadioField('organization', coerce=int, choices=[
+        (2, '非常有组织性'), (1, '比较有组织性'), (0, '一般'),
+        (-1, '比较无组织性'), (-2, '非常无组织性')], validators=[InputRequired()])
+    preparation = RadioField('preparation', coerce=int, choices=[
+        (2, '准备充分'), (1, '有点准备'), (0, '一般'),
+        (-1, '没怎么准备'), (-2, '毫无准备')], validators=[InputRequired()])
+    # colleague = RadioField('colleague', coerce=int,
+    #                        choices=[(3, ''), (2, ''), (1, ''), (0, ''), (-1, ''), (-2, ''), (-3, '')])
+    # community = RadioField('community', coerce=int,
+    #                        choices=[(3, ''), (2, ''), (1, ''), (0, ''), (-1, ''), (-2, ''), (-3, '')])
+    # family = RadioField('family', coerce=int,
+    #                     choices=[(3, ''), (2, ''), (1, ''), (0, ''), (-1, ''), (-2, ''), (-3, '')])
+    colleague = SelectField('colleague', coerce=int,
+                            choices=[(3, '棒极了'), (2, '极好'), (1, '好'), (0, '一般'), (-1, '差'),
+                                     (-2, '非常差'), (-3, '本条对我不适用')], validators=[InputRequired()])
+    community = SelectField('community', coerce=int,
+                            choices=[(3, '棒极了'), (2, '极好'), (1, '好'), (0, '一般'), (-1, '差'),
+                                     (-2, '非常差'), (-3, '本条对我不适用')], validators=[InputRequired()])
+    family = SelectField('family', coerce=int,
+                         choices=[(3, '棒极了'), (2, '极好'), (1, '好'), (0, '一般'), (-1, '差'),
+                                  (-2, '非常差'), (-3, '本条对我不适用')], validators=[InputRequired()])
+    text = TextAreaField('enter your comments', validators=[Optional()])
+
+    submit = SubmitField('提交')
+
+
 import datetime
 import json
 import csv
@@ -144,6 +185,22 @@ def gmt_converter(o):
     if isinstance(o, datetime.datetime):
         GMT_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
         return datetime.datetime.strptime('Wed, 02 Jan 2019 00:00:00 GMT', GMT_FORMAT) + datetime.timedelta(hours=8)
+
+@app.route('/zh',methods=['get','post'])
+def zh():
+    szh= survey_zh()
+    if szh.validate_on_submit():
+        data = szh.data
+
+        toCSV = [data]
+        keys = toCSV[0].keys()
+        with open(basedir+'/static/data.csv', 'a') as output_file:
+            dict_writer = csv.DictWriter(output_file, keys)
+            dict_writer.writeheader()
+            dict_writer.writerows(toCSV)
+        return redirect(url_for('cert'))
+    return render_template('survey2019_zh.html', form=szh)
+
 
 
 @app.route('/', methods=['get', 'post'])
