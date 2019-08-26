@@ -112,7 +112,7 @@ def cert():
 
 
 class surveyform(FlaskForm):
-    date = DateField('Clean Up Date', validators=[InputRequired()])
+    # date = DateField('Clean Up Date', validators=[InputRequired()])
 
     identity = RadioField('identity', coerce=int,
                           choices=[(1, 'Dow employee'), (2, 'Dow contractor'), (3, 'Dow customer'),
@@ -148,7 +148,7 @@ class surveyform(FlaskForm):
 
 
 class survey_zh(FlaskForm):
-    date = DateField('Clean Up Date', validators=[InputRequired()])
+    # date = DateField('Clean Up Date', validators=[InputRequired()])
 
     identity = RadioField('identity', coerce=int,
                           choices=[(1, '陶氏员工'), (2, '陶氏承包商'), (3, '陶氏顾客'),

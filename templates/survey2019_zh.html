@@ -57,12 +57,9 @@ function f1(){
         <div class="container">
 
 
-            <strong> 1. 清理时间:</strong>
-            {{form.date(class='form-control',placeholder='yyyy-mm-dd',type='date')}}
-            {{render_errors(form.date)}}
 
 
-            <strong>2. 我是</strong>
+            <strong>1. 我是</strong>
 
             {% for subfield in form.identity %}
             <div>
@@ -76,7 +73,7 @@ function f1(){
 
 
 
-            <strong>3. 您对这次活动有多满意？</strong>
+            <strong>2. 您对这次活动有多满意？</strong>
             
             {% for subfield in form.satisfactory %}
             <div>
@@ -102,7 +99,7 @@ function f1(){
 
 
 
-            <strong>5. 你对这次活动有多少准备？</strong>
+            <strong>3. 您对这次活动有多少准备？</strong>
             
              {% for subfield in form.preparation %}
             <div class="radio">
@@ -116,7 +113,7 @@ function f1(){
             {{render_errors(form.preparation)}}
 
 
-            <strong>6. 利益相关者参与度。</strong>
+            <strong>4. 利益相关者参与度。</strong>
     
             <div>
                 通过本次活动，我与他们的关系变得:
@@ -144,7 +141,7 @@ function f1(){
 
 
 <br>
-            <strong>7. 附加意见</strong>
+            <strong>5. 附加意见</strong>
             {{form.text(class='form-control',rows=3)}}
             <br>
 

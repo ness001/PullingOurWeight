@@ -54,12 +54,10 @@ display: inline
         <div class="container">
 
 
-            <strong> 1. Cleanup date:</strong>
-            {{form.date(class='form-control',placeholder='yyyy-mm-dd',type='date')}}
-            {{render_errors(form.date)}}
 
 
-            <strong>2. I am a</strong>
+
+            <strong>1. I am a</strong>
 
             {% for subfield in form.identity %}
             <div>
@@ -73,7 +71,7 @@ display: inline
 
 
 
-            <strong>3. How satisfied were you with this event?</strong>
+            <strong>2. How satisfied were you with this event?</strong>
             
             {% for subfield in form.satisfactory %}
             <div>
@@ -85,7 +83,7 @@ display: inline
             {% endfor %}
             {{render_errors(form.satisfactory)}}
 
-                    <strong>4. How well-organized was this event?</strong>
+                    <strong>3. How well-organized was this event?</strong>
            
             {% for subfield in form.organization %}
             <div>
@@ -99,7 +97,7 @@ display: inline
 
 
 
-            <strong>5. How well-prepared were you for this event?</strong>
+            <strong>4. How well-prepared were you for this event?</strong>
             
              {% for subfield in form.preparation %}
             <div class="radio">
@@ -113,7 +111,7 @@ display: inline
             {{render_errors(form.preparation)}}
 
 
-            <strong>6. Stakeholder Engagement.</strong>
+            <strong>5. Stakeholder Engagement.</strong>
     
             <div>
                 Rate the relationships developed with:
@@ -141,7 +139,7 @@ display: inline
 
 
 <br>
-            <strong>7. Additional comments</strong>
+            <strong>6. Additional comments</strong>
             {{form.text(class='form-control',rows=3)}}
             <br>
 
